@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            list-style: none;
+        }
+        .div1{
+            width:970px;
+            margin: 0 auto;
+        }
+        .div1 ul{
+            width:300px;
+            float:left;
+            margin:0 5px;
+            /* background:pink;
+             height: 80px;*/
+        }
+        .div1 ul li{
+            width:100%;
+            margin-bottom: 10px;
+        }
+        .div1 ul li img{
+            width:100%;
+            display:block;
+        }
+        .div2{
+            height: 60px;
+            width:60px;
+            line-height: 60px;
+            font-size: 20px;
+            border-radius: 50%;
+            position: fixed;
+            bottom:10px;
+            right:10px;
+            background: lightgreen;
+        }
+    </style>
+</head>
+<body>
+<div class = "div1" id="box1">
+    <ul></ul>
+    <ul></ul>
+    <ul></ul>
+    <img src="" alt="">
+</div>
+<div class = "div2" id="btn">toTop</div>
+<script src="js/utils.js"></script>
+<script>
+    var oDiv1 = document.getElementById('box1');
+    var aUl = oDiv1.getElementsByTagName('ul');
+    var aLi = oDiv1.getElementsByTagName('li');
+    var aImg = oDiv1.getElementsByTagName('img');
+    var timer = null;
+    var bOk = false;
+    var oBtn = document.getElementById('btn');
+    var data = [
+        {"src":"img2/1.jpg"} ,
+        {"src":"img2/2.jpg"} ,
+        {"src":"img2/3.jpg"} ,
+        {"src":"img2/4.jpg"} ,
+        {"src":"img2/5.jpg"} ,
+        {"src":"img2/6.jpg"} ,
+        {"src":"img2/7.jpg"} ,
+        {"src":"img2/8.jpg"} ,
+        {"src":"img2/9.jpg"} ,
+        {"src":"img2/10.jpg"},
+    ];
+    function createLi(){
+        var oLi = document.createElement('li');
+        oLi.style.height = utils.rnd(80,180)+'px';
+        oLi.innerHTML ='<img realImg="'+(data[utils.rnd(0,9)].src)+'" alt="">';
+        return oLi;
+    }
+    function li50(){
+        for(var i = 0; i< 50;i++){
+            var oLi =createLi();
+            var ary = utils.makeArray(aUl);
+            ary.sort(function(a,b){
+                return a.offsetHeight-b.offsetHeight;
+            });
+            ary[0].appendChild(oLi);
+        }
+    }
+    li50();
+    showImg();
+    function showImg(){
+        var scrollBottom =utils.win('scrollTop')+utils.win('clientHeight');
+        for(var i =0;i<aLi.length;i++){
+            var imgPos = aLi[i].offsetHeight+aLi[i].offsetTop;
+            if(imgPos < scrollBottom){
+                lazyImg(aImg[i]);
+            }
+        }
+    }
+    function lazyImg(img){
+        if(img.loaded)return;
+        var tmpImg = new Image;
+        tmpImg.src = img.getAttribute('realImg');
+        tmpImg.onload=function(){
+            img.src=tmpImg.src;
+            tmpImg = null;
+            img.loaded = true;
+            img.parentNode.style.height = 'auto';
+        }
+        tmpImg.onerror =function(){
+            img.loaded = true;
+            tmpImg = null;
+            img.parentNode.style.backgroundImage='url("img2/error.gif")';
+        }
+    }
+    window.onscroll=function(){
+        //(浏览器卷去的高度+可视区的高度+500)>=页面内容的高度
+        var scrollBottom=utils.win('scrollTop')+utils.win('clientHeight');
+        showImg();
+        if(bOk){
+            clearInterval(timer);
+        }
+        bOk=true;
+        if(utils.win('scrollTop')>utils.win('clientHeight')){
+            utils.css(oBtn,'display','block');
+        }else{
+            utils.css(oBtn,'display','none');
+        }
+        if(scrollBottom+50>=document.body.scrollHeight){
+            li50();
+        }
+    };
+    oBtn.onclick=toTop;
+    function toTop(){
+        var target=utils.win('scrollTop');
+        var duration=1000;
+        var interval=30;
+        var step=target/duration*interval;
+        clearInterval(timer);
+        timer=setInterval(function(){
+            var curTop=utils.win('scrollTop');
+            if(curTop<=0){
+                clearInterval(timer);
+                return;
+            }
+            curTop-=step;
+            utils.win('scrollTop',curTop);
+            bOk=false;
+        },interval)
+    }
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
