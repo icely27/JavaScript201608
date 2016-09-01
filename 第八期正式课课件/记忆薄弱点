@@ -1,0 +1,147 @@
+浏览器对move事件的捕获是有一定间隔的,系统默认会每过一段时间才捕获一次;
+柯理化函数,订阅发布;
+通过回调函数统一管理函数;
+一、疑点?:---------需思考深究----------
+    1.//-----------------------重点理解1----??????-------------------------//
+    注意函数调用时,参数传递的问题,注意查找所要用的参数是从那里传来的?
+    2.//-----------------------重点理解2----??????-------------------------//
+    再想想那个避免重复绑定的问题,为什么一定要写在上面那句if判断里??????????????想想想
+    已搞定!!:因为如果那句写在最后面,on方法每调用一次就会绑定一个run方法,而我们只需要绑定一次run方法,因为run里面已经包含了所有方法,
+    我们只需要在最初始阶段把run方法绑定一次就可以啦(写在那句只执行一次的代码那里);run方法只在IE低级浏览器下才运行;
+二、弱点:------需加强理解记忆----------
+    1.不熟练那个画图理解程序执行的具体步骤:考试题,很难的那个面试题,函数的几种角色的理解;
+    2.ajax那个四步骤,各参数具体意义再详细理解
+    3.事件源IE下的兼容处理,
+        e = e || window.event;
+
+        e.pageX = (document.documentElement.scrollLeft || document.body.scrollLeft)+e.clientX;
+        e.pageY =(document.documentElement.scrollTop || document.body.scrollTop)+e.clientY
+        e.targe = e.srcElement;
+        e.preventDefault = function(){e.returnValue = false;}
+        e.stopPropagation = function(){e.cancelBubble = true;}
+三、特殊记忆点:
+    1.arguments是特例!!
+        Array.prototype.slice.call(arg),这个方法里面的参数arg若果是函数参数集合arguments,就能兼容所有浏览器;
+    3.arguments.callee??????回去研究下,arguments注意点
+    2. 注意这个类数组转数组的方法 ,参数还可以传入索引,例如:
+        function(){
+            var outArg= Array.prototype.slice.call(arguments,1);
+            //把该函数的参数集合,从第二个(索引为1的那个)参数开始截取到最后,
+            //把拿到的所有参数放在一个数组里,用变量outArg接收这个数组,即给这个数组起个名字叫outArg;
+        }
+    4. 几个方法的区别记忆:
+        数组的方法:查找slice和删除splice的区别记忆,数组的indexOf方法不兼容;数组转字符串:toString(),和join()
+        字符串的方法:split,也有slice查找,用法一样,字符串的indexOf方法兼容;转数组用split,按照切割形式把切割开的东西放到一个数组里
+
+四、补落下的课重点理解:事件类型-------它是一个行为的标识符号
+
+    关于事件类型:DOM0,DOM Core(其实是DOM1),DOM2,还有DOM3级事件呢
+
+    DOM是跨语言的?,在其他语言里也有共通的法则;
+    关于XML,HTML,关于XML,有自定义标签?可以自己瞎编一个标签名;
+    关于XML和HTML的区别,再细查做好笔记
+    。。。。。。。。。。。。。。。。。。。。。。。。。
+    HTML+css基础打好;
+    HTML5+CSS3学习;
+    。。。。。。。。。。。。。。。。。。
+    DOM0--其实叫做-》DHTML,动态网页编程---------------long long ago,很久以前的原始的叫法了
+    在DOM出现之前,JS有自己自带的办法:
+    document.forms;document.images;document.all['div'];
+
+    //DOM2最重大的改变之一是:以DOM元素为单位,实现了对事件的管理;
+    父类,div 是它的父类HTMLDivElement的实例,以此类推,前者是后者的实例,后者是前者的父类;
+    div--->HTMLDivElement---->HTMLElement--->Element-->Node--->EventTarget--->Object;
+
+
+
+    1.DOM0级事件和DOM2级事件概述:
+       DOM0级事件：
+                1）DOM0级事件，是元素的私有属性
+                2)只能发生在事件流的冒泡阶段
+       DOM2级事件：也可以绑定元素的事件，只是不加on;
+                1)DOM2级事件，在元素所属的eventTarget这个类的原型上；所以，它是公有属性；
+                2)DOM2级事件可以通过第三个参数，控制事件流在捕获阶段 还是 冒泡阶段；
+                3）DOM2级事件中，可以绑定DOM0级没有的行为：（自定义的行为，DOM2级专有，DOM0级没有的系统行为）;
+    DOM0和DOM2详解:
+        1)->DOM0事件绑定
+            原理：
+            ->给当前元素某一个私有的属性赋值,例如:onclick就是document的一个私有的属性
+            ->由于一个对象的属性名不能重复,一个属性名只能赋值一次,所以我们第二次绑定的方法会把第一次绑定的方法给覆盖掉
+            =>“DOM0级事件绑定只能给当前元素的某一个事件绑定一次方法”
+            =>“DOM0级事件绑定的方法只能在事件的冒泡传播阶段执行”
+                 document.onclick=function(){ console.log(1);}//绑定事件
+                 document.onclick=function(){console.log(2);}
+                 document.onclick=null;//->移除
+        2)->DOM2事件绑定
+              原理:
+              只要使用的是DOM2事件绑定,不管是标准浏览器还是IE6~8,浏览器都会给当前操作的元素默认开辟一个事件池(一个存放方法的容器),
+                                    紧接着浏览器会把绑定的所有方法依次存储到事件池中
+              =>“DOM2事件绑定可以给当前元素的某一个事件绑定多个不同的方法，
+                  当事件触发，浏览器会到默认创建的事件池中把之前存放的所有方法按照顺序依次的执行”
+        3)区别:
+          ->事件在IE6~8下需要在前面加on
+          ->标准浏览器中通过控制最后一个参数是false还是true,可以控制绑定的方法在冒泡还是捕获阶段执行(一般都用false,代表在冒泡阶段执行)；
+            在IE6~8下只能在冒泡阶段执行；
+
+          ->THIS问题:
+            标准浏览器中使用DOM2绑定的方法,在事件触发方法执行的时候,方法中的THIS都是当前的元素;但是在IE6~8下方法中的THIS是window;
+
+          ->重复问题:
+            标准浏览器在往事件池中存储方法的时候，天生自带去重的机制，也就是不能给同一个元素的某一个事件绑定多个相同的方法，
+            但是IE6~8下没有这个去重的机制，是可以给同一个元素的某一个事件绑定多个相同方法的;
+
+          ->执行的顺序问题:
+            标准浏览器绑定的时候，往事件池中存储的顺序和绑定的先后顺序一致，执行的时候也是按照绑定的顺序依次执行的；
+            但是IE6~8下执行的时候顺序是混乱的，和绑定的顺序没啥关系；
+        4)->DOM0和DOM2的一些区别:
+          DOM0中使用的事件在DOM2中都可以使用，而DOM2还提供了一些DOM0中没有的事件类型，例如：DOMContentLoaded...
+          //document.onDOMContentLoaded=function(){} 这样绑定不了方法
+          document.addEventListener('DOMContentLoaded',function(){},false);
+          document.attachEvent('onDOMContentLoaded',function(){})
+          //->IE6~8下不支持标准浏览器中新增加的这个事件,我们使用另外一个事件来代替:onreadystatechange
+    2.事件类型:
+          1.鼠标事件
+          onclick ondblclick onmouseover onmouseout onmouseenter onmouseleave...
+          2.键盘事件
+          onkeydown onkeyup onkeypress....
+          3.表单事件
+          onfocus  onblur ....
+          4.系统事件
+          onscroll onload onreasize:当屏幕大小发生变化的时候被触发；
+    3.事件对象:e = e || window.event;
+        事件对象的兼容处理：e=e||window.event;//也可以写成event = event || window.event;
+            事件对象的获得方式不同:
+            1）在标准浏览器下用的是形参e:形参是自己起的名字,叫e或者event都可以,
+                                     或者你自己起个其他名字也行,大家能看懂就可以,因为获得是事件对象,一般都起名字叫e或者event
+                标准浏览器下当事件触发的时候,浏览器会自动给绑定到此事件上的方法传一个事件对象做参数,从而得到事件对象;
+            2)在IE浏览器下，跟是否传形参无关，通过一个全局对象window.event获取到事件对象；
+    4.事件对象的详细信息:
+        1)clientX/Y:当前鼠标落脚点，距离可视区左上角的坐标；--兼容
+        2)e.type:当前所触发的行为类型；--兼容
+        3)e.keyCode:
+
+        4)e.pageX/Y:当前鼠标落脚点，距离第一屏左上角的坐标；当浏览器被卷去的内容越多，pageY就越大--他不兼容；
+                兼容处理：IE不支持e.pageX和e.pageY这两个属性:在IE下获取它们的值要写法如下:
+                e.pageX=(document.documentElement.scrollLeft||document.body.scrollLeft)+ e.clientX;
+                e.pageY=(document.documentElement.scrollTop||document.body.scrollTop)+ e.clientY;
+        5)e.target:事件源--不兼容
+                兼容处理：标准浏览器是e.target;IE 是e.srcElement;
+                e.target= e.target|| e.srcElement;
+        6）阻止默认事件,阻止事件的默认行为: e.preventDefault();--不兼容
+                兼容处理：标准浏览器是e.preventDefault(),IE下是e.returnValue=false;
+                e.preventDefault? e.preventDefault(): e.returnValue=false;
+        7）阻止冒泡(即停止事件传播的方法):
+                标准浏览器下是e.stopPropagation(),IE下是e.cancelBubble= true;
+    5.事件流：
+       如果事件流包含3阶段：
+           1）捕获阶段 --从外向里捕获
+           2）事件源 -- e.target 当前发生事件的这个元素
+           3）冒泡阶段 -- 从里向外的去触发元素身上相同的事件，当元素身上有绑定的方法的时候，被绑定的方法就会执行；
+       如果事件流包含2阶段：捕获阶段 和 冒泡阶段
+           注意：只要元素的事件被触发，他所有父级的相同事件都被触发了，只是看他是否有绑定方法而已，如果过绑定方法，才会执行，没有，就不会执行了；
+五、 补落下的课重点理解: 。。。。。。。。。待整理复习  。。。。。。。。。。。。。。。。。
+。。。。。。。。。。。。。。。。。。。。。。。。待整理。。。。。。。。。。。。。。。。。
+    1.第五周第一天、第二天、第三天jQuery相关:js知识;
+    2.各个例子里的css布局知识,好好学习
+    3.复习之前的考试内容
+    4.用jQuery+构造函数改写之前学过的几个例子
