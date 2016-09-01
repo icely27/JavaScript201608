@@ -1,0 +1,35 @@
+1.事件对象的浏览器兼容问题: 事件对象 e = e || window.event;
+    能兼容的有三个?: 事件对象的详细信息
+            1)e.clientX/Y:当前鼠标落脚点，距离可视区左上角的坐标；--兼容
+            2)e.type:当前所触发的行为类型；--兼容
+            3)e.keyCode:
+    不能兼容的有六个:
+      1)事件对象：描述事件类型的详细信息；
+            事件对象的兼容处理：e=e||window.event;//也可以写成event = event || window.event;
+            事件对象的获得方式不同:
+            1）在标准浏览器下用的是形参e:形参是自己起的名字,叫e或者event都可以,
+               或者你自己起个其他名字也行,大家能看懂就可以,因为获得是事件对象,一般都起名字叫e或者event;
+               标准浏览器下当事件触发的时候,浏览器会自动给绑定到此事件上的方法传一个事件对象做参数,从而得到事件对象;
+            2)在IE浏览器下，跟是否传形参无关，通过一个全局对象window.event获取到事件对象；
+      --------------以下是事件对象的详细信息------------
+      2)e.pageX/Y:当前鼠标落脚点，距离第一屏左上角的坐标；当浏览器被卷去的内容越多，pageY就越大--他不兼容；
+            兼容处理：IE不支持e.pageX和e.pageY这两个属性:在IE下获取它们的值要写法如下:
+            e.pageX=(document.documentElement.scrollLeft||document.body.scrollLeft)+ e.clientX;
+            e.pageY=(document.documentElement.scrollTop||document.body.scrollTop)+ e.clientY;
+      3)e.target:事件源--不兼容
+            兼容处理：标准浏览器是e.target;IE 是e.srcElement;
+            e.target= e.target|| e.srcElement;
+      4）阻止默认事件,阻止事件的默认行为: e.preventDefault();--不兼容
+            兼容处理：标准浏览器是e.preventDefault(),IE下是e.returnValue=false;
+            e.preventDefault? e.preventDefault(): e.returnValue=false;
+      5）阻止冒泡(即停止事件传播的方法):
+            标准浏览器下是e.stopPropagation(),IE下是e.cancelBubble= true;
+      6)DOM二级事件绑定的不同:
+        6.1 绑定事件和移除事件的方法不同:
+            标准浏览器用:ele.addEventListener和ele.removeEventListener;
+            IE浏览器用:ele.attachEvent和ele.detachEvent;
+        6.2 在IE浏览器下this有问题:
+             IE下被绑定到事件上的方法在执行的时候,this不是指向当前元素,而是指向window;
+        6.3 在IE下方法重复绑定的问题:
+            IE中,一个方法可以重复的被绑定到同一个方法上;
+        6.3 IE下绑定的方法执行顺序问题:7个以下是倒序,7个以上会乱序执行;

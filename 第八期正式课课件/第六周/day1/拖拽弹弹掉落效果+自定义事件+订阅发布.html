@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .red{
+            height: 100px;
+            width:100px;
+            background: lightpink;
+            position: absolute;
+            left:0;
+            top:0;
+            cursor: pointer;
+        }
+        .yellow{
+            height: 100px;
+            width:100px;
+            background: greenyellow;
+            position: absolute;
+            left:0;
+            top: 150px;
+            cursor: pointer;
+        }
+        .blue{
+            height: 100px;
+            width:100px;
+            background: lightblue;
+            position: absolute;
+            left:150px;
+            top:0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="red"></div>
+<div class="yellow"></div>
+<div class="blue"></div>
+<script src="event.js"></script>
+<script src="drag2.js"></script>
+<script src="effect.js"></script>
+<script>
+    var aDiv=document.getElementsByTagName('div');
+    var g=9.8;
+    var flg=0;
+    var zIndex=0;
+    /*
+    * for(var i=0; i<aDiv.length; i++){
+    *       var ele = aDiv.item(i);//注意记忆这种写法哦:获取数组中的每一项的方法:
+    *       //var ele = aDiv[i];// 两种写法同理;
+    * }
+    *
+    * */
+    for(var i=0; i<aDiv.length; i++){
+        $event.on(aDiv[i],'mousedown',down);
+        $event.on(aDiv[i],'myMouseDown',stopMove);
+            //这样点击就停下,松开又掉下去了,
+       // $event.on(aDiv[i],'onclick',stopMove);
+        //思考:如何一点击就停下来,松开后也停在那里不动了?
+        $event.on(aDiv[i],'myMouseDown',creaseIndex);
+        $event.on(aDiv[i],'myMouseMove',getSpeedx);
+        //这句必须这样写,把getSpeedx一定要写在myMouseMove这个事件里,在鼠标移动的时候,获取速度;
+        // 一定要在move的方法里,去获取速度,否则无法获取移动时的x轴的速度;
+        //注意:系统捕获焦点有一定的事件差,系统不是实时检测鼠标点在哪里的,它也有一个反应时间;
+        // 浏览器系统内置的机制决定了每隔一段固定时间(系统规定好的内置获取焦点的时间差)才去获取一次e.clientX
+        // 我们让系统间隔时间后获取到的e.clientX减去上一次系统获取到的e.clientX
+        $event.on(aDiv[i],'myMouseUp',getMove);
+    }
+</script>
+</body>
+</html>

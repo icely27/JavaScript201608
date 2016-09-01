@@ -1,0 +1,172 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+</head>
+
+<body>
+浏览器的事件处理有那些兼容问题
+1、事件不一样，e.target，e.srcElment;
+2、阻止事件的默认行为
+3、事件传播的方式和停止事件传播的方法方式不一样
+4、e.pageX,e.pageY,鼠标距离文档顶端的距离
+
+e=window.event||e;
+
+event=window.event||event;
+1、事件对象的获得方式不同
+	IE浏览器是通过一个全局对象得到事件对象：window.event;标准浏览器是当事件触发的时候，浏览会自动的给绑定到此事件上的方法传一个事件对象做参数，从而得到事件对象。
+一般情况下会这样处理
+	ele.onclick=function(e){
+    	e=window.event||e;
+    }
+2、事件源属性不一样,IE是e.srcElement,标准浏览器是e.target
+3、IE不支持e.pageX,e.pageY这两个属性，这两个属性是鼠标距离文档顶端的距离
+	e.clientX,e.clientY
+   如果让IE浏览器也得到和e.pageX，e.pageY一样的值，写法如下 (document.documentElement.scrollLeft||document.body.scrollLeft)+e.clientX
+(document.docuemntElement.scrollTop||document.body.scrollTop)+.e.clientY
+4、阻止事件的默认行为的方法不一样
+	标准浏览器是e.preventDefault()，IE是e.returnValue=false;
+    
+5、停止事件的传播方法不一样
+	标准浏览器是e.stopPropagation()，IE是e.cancelBubblue=true;
+    
+6、DOM二级事件绑定的不同
+	6.1 绑定事件和移除事件的方法不同
+    标准浏览器是：ele.addEventListener和ele.removeEventListener
+    IE浏览器是：ele.attachEvent和ele.detachEvent
+    6.2 IE中被绑定到事件上的方法在执行的时候，this不指向当前元素，而是指向的window.
+    6.3 IE中，一个方法可以被重复的绑定到同一个事件上
+    6.4 绑定的方法的执行顺序问题
+</body>
+</html>
+一切法无我，得成于忍   安忍如大地
+无人无我无众生无寿者--
+<script>
+function bind(ele,type,fn){
+	if(ele.addEventListener){
+		ele.addEventListener(type,fn,false);	
+	}else {
+		
+		if(!ele["bindevent"+type]){
+			ele["bindevent"+type]=[];//用来保存真正绑定到事件上的方法的。为什么要把它们保存下来呢？就是为了在移除的时候，能通过这个数组找到它们（在unbind方法里）
+		}
+		var a=ele["bindevent"+type];
+		for(var i=0;i<a.length;i++){
+			if(a[i].itsname==fn)return;
+		}
+		bind(ele,"click",fn3)
+		var fnTemp=function(){fn.call(ele)}//核心代码，其它的代码都是为移除事件而准备
+		
+		
+		
+		ele.attachEvent("on"+type,fnTemp);
+		a.push(fnTemp);
+		fnTemp.itsname=fn;//让变形的方法和原方法之间有关联，通过这个itsname自定义属性，能够让fnTemp知道它是fn变形来的
+	}
+	
+}
+
+
+function unbind(ele,type,fn){
+	if(ele.removeEventListener){
+		ele.removeEventListener(type,fn,false)
+	}else{
+		ele.detachEvent("on"+type,ele.fnTemp);
+	}
+	
+}
+
+function bind(ele,type,fn){
+	if(ele.addEventListener){
+		ele.addEventListener(type,fn,false);	
+	}else{
+		//var fnTemp=function(){fn.call(ele)};
+		//fnTemp.itsname=fn;
+		if(!ele["bindevent"+type]){
+			ele["bindevent"+type]=[];	
+		}
+		var a=ele["bindevent"+type];
+		for(var i=0;i<a.length;i++){
+			if(a[i].itsname==fn)return;	
+		}
+		bind(ele,"click 
+		bind(ele,"click",fn1)
+		bind(ele,"click",fn2);
+		//var fnTemp=function(){fn.call(ele)};
+		a.push(fnTemp)
+		//fnTemp.itsname=fn;
+		ele.attachEvent("on"+type,fnTemp);
+	}
+}
+function unbind(ele,type,fn){
+	if(ele.removeEventListener){
+		ele.removeEventListener(type,fn,false);	
+	}else{
+		var a=ele["bindevent"+type];
+		if(a&&a.length){
+				for(var i=0;i<a.length;i++){
+					if(a[i].itsname==fn){
+						ele.detachEvent("on"+type,a[i]);
+						a.splice(i,1);
+						return;	
+					}
+				}
+		}
+	}
+	
+	
+}
+
+//解决绑定在事件上的方法的执行顺序问题的
+
+//1、on方法的关键是：创建程序池并且把程序保存到这个程序池中
+function on(ele,type,fn){//负责订阅或叫“约定”，或叫事件绑定，所谓的事件绑定就是把一个绑定好的方法提前保存到一个数组里
+	if(!ele["onEvent"+type]){
+		ele["onEvent"+type]=[];	//这是核心代码之一，先要有一个数组
+	}
+	var a=ele["onEvent"+type];
+	
+	for(var i=0;i<a.length;i++){//避免重复保存的判断
+		if(a[i]==fn)return;	
+	}
+	
+	a.push(fn);//这一行是核心代码：再把方法保存到数组里
+	
+	//然后等着当事件触发的时候，由run方法来按顺序遍历执行保存在数组里的这些方法。所以这里还要有一句由bind绑定run的操作
+	bind(ele,type,run);
+}
+function run(e){//负责“通知”的作用，或叫“发布”，其实就是遍历程序池，让保存程序池里的方法按顺序来执行
+	e=window.event||e;
+	var type=e.type;
+	var a=this["onEvent"+type];
+	if(a&&a.length){
+		for(var i=0;i<a.length;i++){
+			//a[i].call(this,e);
+			if(typeof a[i]=="function"){
+				a[i].call(this,e);	
+				//a[i](e);
+			}else{
+				a.splice(i,1);
+				i--;	
+			}
+		}
+	}
+	
+}
+
+function off(ele,type,fn){
+	var a=ele["onEvent"+type];
+	if(a&&a.length){
+		for(var i=0;i<a.length;i++){
+			if(a[i]==fn){
+				a[i]=null;
+				return;	
+			}
+		}
+			
+	}
+}
+
+</script>

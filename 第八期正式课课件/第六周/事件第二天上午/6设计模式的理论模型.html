@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+</head>
+
+<body>
+<gengyinpeng>最帅</gengyinpeng>
+</body>
+</html>
+<script>
+document.addEventListener("DOMNodeRemoved",function(){});
+//事件类型---它是一个行为的标识符
+//DOM0，DOM Core ,DOM2,DOM3
+//DOM0  DHTML ,动态网页编程
+document.forms;document.images;document.all["div"]
+//XML  --HTML
+
+//DOM2最重大的改变之一是：以DOM元素为单位，实现了对事件的管理
+div1.onclick
+div--HTMLDivElement--HTMLElement-->Element--Node--EventTarget--Object
+
+//click
+
+//鼠标点一下看成是一个行为  A行为，主行为
+
+//选项卡切换，动画，菜单弹出  B行为，辅行为
+
+//在A和B行为之上，要有一个标识主行为的字符串，并且先要把这个字符串约定好
+
+div1.addEventListener("click",changeTab);
+
+//要实现自定义事件（就是实现自已来发布事件）（观察者模式的原理）需要首先确定以下几点
+/*
+	1、确定主行为
+	2、给主行为确定一个标识这个主行为的字符串，叫事件类型
+	3、绑定的方法，订阅的方法（addEventListener），通过这个方法，把主行为和辅行为联系在一起
+	4、还要有辅行为
+	on("click",fn1);当on运行的时候，把fn1保存到一个以"click"字符串为区分符的数组里
+	
+	5、还要有通知的方法，run，它负责当主行为发生的时候，遍历on的时候保存在对应的数组里的方法并且执行
+	6、什么通知
+	7、怎么通知
+		关键要理解好“事件类型”这个字符串和on（订阅的方法）和run（通知的方法的关系）
+		
+		
+重新解释
+		事件类型（标识主行为的字符串）
+		先约定（addEventListener,on,attachEvent）
+	主行为   辅行为
+	
+	通知：去对应的数组里，遍历执行已经保存好的方法
+		
+		
+	断言 Assert 前提条件
+	言语 道断，心行处 灭
+	
+	凡所有相，皆是虚妄。见诸相无相，即见如来
+
+*/
+
+</script>

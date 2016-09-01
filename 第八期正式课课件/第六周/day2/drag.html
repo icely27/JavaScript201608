@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #div1{
+            height: 100px;
+            width:100px;
+            background: lightpink;
+            position: absolute;
+            left:0;
+            top:0;
+            cursor: pointer;
+        }
+        #div2{
+            height: 100px;
+            width:100px;
+            background: greenyellow;
+            position: absolute;
+            left:0;
+            top: 150px;
+            cursor: pointer;
+        }
+        #div3{
+            height: 100px;
+            width:100px;
+            background: lightblue;
+            position: absolute;
+            left:150px;
+            top:0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="red" id="div1"></div>
+<div class="yellow" id="div2"></div>
+<div class="blue" id="div3"></div>
+<script src="event2_self.js"></script>
+<script src="Drag.js"></script>
+<script>
+    var div1 = document.getElementById('div1');
+    var div2 = document.getElementById('div2');
+    var div3 = document.getElementById('div3');
+    new Drag(div1);
+    var obj2 = new Drag(div2);
+    new Drag(div3);
+</script>
+</body>
+</html>
