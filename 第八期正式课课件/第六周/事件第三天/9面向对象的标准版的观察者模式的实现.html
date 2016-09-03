@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+</head>
+
+<body>
+</body>
+</html>
+<script>
+
+
+//主行为  
+//订阅主行为
+//当主行为完成的时候，通知你来做相应的工作
+//Object--EventTarget-->Node--->Element-->HTMLElement-->HTMLDivElement
+//定义报警器类
+	function EventEmitter(){
+		
+	}
+	EventEmitter.prototype.on=function(type,fn){
+		if(!this["emitter"+type]){
+			this["emitter"+type]=[];	
+		}
+		var a=this["emitter"+type];
+		for(var i=0;i<a.length;i++){
+			if(a[i]==fn)return;
+		}
+		a.push(fn);
+	}
+	EventEmitter.prototype.run=function(type,e){
+		var a=this["emitter"+type];
+		if(a&&a.length){
+			for(var i=0;i<a.length;i++){
+				if(typeof a[i]=="function"){
+					a[i].call(this,e);	
+				}else{
+					a.splice(i,1);
+					i--;	
+				}
+			}
+		}
+	}
+	EventEmitter.prototype.off=function(type,fn){
+		var a=this["emitter"+type]
+		if(a&&a.length){
+			for(var i=0;i<a.length;i++){
+				if(a[i]==fn){
+					a[i]=null;
+					break;	
+				}
+			}
+		}
+	}
+	var obj=new EventEmitter();
+	obj.on("boiling",drink);
+
+function Kettle(){};
+Kettle.prototype=new EventEmitter;//原型继承
+Kettle.prototype.boiling=function(){
+		console.log("开始烧水！");
+		
+		var that=this;
+		window.setTimeout(function(){
+			console.log("水烧开啦!!");
+			that.run("boiling");
+		},5000)
+}
+var k1=new Kettle;
+k1.on("boiling",drink);
+k1.on("boiling",noodles);
+k1.on("boiling",bath);
+k1.boiling();
+
+function drink(){
+	console.log("喝点开水");
+	}
+function noodles(){
+	console.log("煮点面条");
+}
+function bath(){
+	console.log("泡个澡");
+}
+
+
+</script>

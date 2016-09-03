@@ -1,0 +1,177 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style type="text/css">
+div{ width:100px; height:100px; position:absolute; top:0; left:0;  background:red; cursor:move; -webkit-user-select:none; overflow:hidden;}
+</style>
+
+</head>
+
+<body>
+<div id="div1"><img src="th.jpg" width="100" height="100"></div>
+<div id="div2" style="left:150px; "><img src="th.jpg" width="100" height="100"></div>
+<div id="div3" style="left:300px; top:300px;">3</div>
+</body>
+</html>
+<script src="event1.js"></script>
+<script src="effect2.js"></script>
+
+<script>
+/*
+	拖拽2.0版
+	重大升级：可以实现事件发布。
+	在实现基础的拖拽功能的原则下，再实现能和其它方法（行为）对接
+	
+	在拖拽1.0产品中，实现了如下的功能
+	实现对ele元素的拖拽：
+		var obj=new Drag(ele);
+	更多的技术细节：
+		被拖拽的元素保存在obj.ele上
+		【
+			原来的effect.js中,this是被拖指的DOM元素
+			如果使用这个拖拽产品，this指的是Drag类的实例
+		
+		】
+		
+		obj.x保存的是
+		obj.y保存的是
+		obj.mx
+		obj.my
+		obj.down
+		obj.move
+		obj.up这些方法是干什么的，都需要在产品说明书上注明
+		
+	拖拽2.0产品中，主要实现了事件接口的功能
+	用法如下
+	比如把fly和拖拽结束对接在一起，则使用
+	obj.on("dragend",fly); 其中"dragend"是表示拖拽结束的事件类型
+	把某个功能和拖拽进行对接在一起，则使用
+	obj.on("drag",fn);
+	把某个功能和拖拽开始的时候对接在一起，则使用
+	obj.on("dragstart",fn);	
+	
+	移除事件绑定的方法是
+	obj.off();
+		
+		run方法是个内部运行的方法，
+	
+
+*/
+
+function EventEmitter(){
+	
+}
+EventEmitter.prototype.on=function(type,fn){
+	if(!this["emitter"+type]){
+		this["emitter"+type]=[];	
+	}
+	var a=this["emitter"+type];
+	for(var i=0;i<a.length;i++){
+		if(a[i]==fn)return this;	
+	}
+	a.push(fn);
+	return this;
+}
+EventEmitter.prototype.run=function(type,e){
+	var a=this["emitter"+type];
+	if(a&&a.length){
+		for(var i=0;i<a.length;i++){
+			if(typeof a[i]=="function"){
+				a[i].call(this,e);
+			}else{
+				a.splice(i,1);
+				i--;
+			}
+		}
+	}
+}
+EventEmitter.prototype.off=function(type,fn){
+	var a=this["emitter"+type];
+	if(a&&a.length){
+		for(var i=0;i<a.length;i++){
+			if(a[i]==fn){
+				a[i]=null;
+				break;	
+			}
+		}
+	}
+	return this;
+}
+
+function Drag(ele){
+	this.x=null;
+	this.y=null;
+	this.mx=null;
+	this.my=null;
+	this.ele=ele;
+	this.obj=ele;
+	
+	this.DOWN=processThis(this.down,this);
+	this.MOVE=processThis(this.move,this);
+	this.UP=processThis(this.up,this);
+	on(this.ele,"mousedown",this.DOWN);//对于这个on来说，我们只是使用者
+	//this.on;//对于这个on来说，我们是开发者，
+	
+}
+Drag.prototype.__proto__=EventEmitter.prototype;//这是更安全的继承方法，一般在Node里都是采用这种方式实现继承。IE不支持
+
+Drag.prototype=new EventEmitter;//相对这种方式来说，上边的写法更安全
+Drag.prototype.down=function(e){
+	this.x=this.ele.offsetLeft;
+	this.y=this.ele.offsetTop;
+	this.mx=e.pageX;
+	this.my=e.pageY;
+	if(this.ele.setCapture){
+		this.ele.setCapture();
+		on(this.ele,"mousemove",this.MOVE);
+		on(this.ele,"mouseup",this.UP);
+		this.on
+	}else{
+		on(document,"mousemove",this.MOVE);
+		on(document,"mouseup",this.UP);
+	}
+	e.preventDefault();
+	//IE7-->on--->ele["eventmousedown"][down]
+	//mousedown触发--run--遍历ele["eventmousedown"]数组
+	//在run里通过e=window.event得到事件对象，然后改造e，给它加了一堆的方法和属性，然后再通过a[i].call(this,e);传给down
+	this.run("abcde1",e);
+	
+}
+Drag.prototype.move=function(e){
+	this.ele.style.left=this.x+(e.pageX-this.mx)+"px";
+	this.ele.style.top=this.y+(e.pageY-this.my)+"px";
+	this.run("abcde2",e);
+}
+Drag.prototype.up=function(e){
+	if(this.ele.releaseCapture){
+		this.ele.releaseCapture();
+		off(this.ele,"mousemove",this.MOVE);
+		off(this.ele,"mouseup",this.UP);
+	}else{
+		off(document,"mousemove",this.MOVE);
+		off(document,"mouseup",this.UP);
+	}
+	//this.on("dragend",e);
+	this.run("abcde3",e);
+}
+var eles=document.getElementsByTagName("div");
+for(var i=0;i<eles.length;i++){
+	var ele=eles[i];
+	new Drag(ele).on("abcde1",clearEffect).on("abcde2",getSpeed).on("abcde3",fly).on("abcde3",drop);
+	
+	/*var obj1=new Drag(ele);
+	obj1.on("abcde1",clearEffect);
+	obj1.on("abcde2",getSpeed);
+	obj1.on("abcde3",fly);	
+	obj1.on("abcde3",drop);*/
+	
+}
+/*var obj1=new Drag(ele);
+
+var obj2=new Drag(div2);
+var obj3=new Drag(div3);*/
+
+
+</script>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style type="text/css">
+div{ width:100px; height:100px; position:absolute; top:0; left:0;  background:red; cursor:move; -webkit-user-select:none; overflow:hidden;}
+</style>
+
+</head>
+
+<body>
+<div id="div1" draggable="true"><img src="th.jpg" width="100" height="100"></div>
+<div id="div2" style="left:150px; "><img src="th.jpg" width="100" height="100"></div>
+<div id="div3" style="left:300px; top:300px;">3</div>
+</body>
+</html>
+<script>
+var ele=document.getElementById("div1");
+
+//以下三个事件是控制被拖拽元素的三个事件
+ele.ondragstart;//相当于down方法，指拖拽开始的阶段
+ele.ondrag//拖拽进行的阶段
+ele.ondragend;//拖拽结束的阶段
+
+//以下四个事件和拖拽目标有关系
+ele.ondragenter
+ele.ondragleave;
+ele.ondragover
+ele.ondrop;
+
+ele.ondragstart=function(e){
+	this.x=this.offsetLeft;
+	this.y=this.offsetTop;
+	this.mx=e.pageX
+	this.my=e.pageY;
+	/*
+		if(this.setCapture){
+			on();
+			on();	
+		}else{
+			on(document,"",down);
+			on();
+		}
+	
+		this.run();
+	*/
+}
+ele.ondrag=function(e){
+	this.style.left=this.x+e.pageX-this.mx+"px";
+	this.style.top=this.y+e.pageY-this.my+"px";
+	
+}
+ele.ondragend=function(e){
+	this.style.left=this.x+e.pageX-this.mx+"px";
+	this.style.top=this.y+e.pageY-this.my+"px";
+	
+}
+
+
+
+
+</script>

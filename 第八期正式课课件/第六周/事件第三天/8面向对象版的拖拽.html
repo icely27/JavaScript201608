@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style type="text/css">
+div{ width:100px; height:100px; position:absolute; top:0; left:0;  background:red; cursor:move; -webkit-user-select:none;}
+</style>
+</head>
+
+<body>
+<div id="div1"><img src="th.jpg" width="100" height="100"></div>
+<div id="div2" style="left:150px; "><img src="th.jpg" width="100" height="100"></div>
+<div id="div3" style="left:300px; top:300px;">3</div>
+</body>
+</html>
+<script src="event1.js"></script>
+<script>
+//面向对象的拖拽
+//面向过程注重逻辑，面向对象注重代码的管理、扩展、组织等。面向对象体现的更多的是管理和组织的思想。
+//面向对象的编程，先确定一个可以依赖的对象，所有的行为都以这个对象为上下文来执行
+//"小事"不适用面向对象：面向对象的应用场合
+
+//JS本身是轻量级的语言，它天生不是用来处理大量数据的语言，它特长和先天的特点长于逻辑处理，在面向对象这方面没有优势可言。
+//Java 
+//记录：几十种农作物，几亿条记录
+
+//在写面向对象的拖拽之前，先要确定几个编程原则
+//有类，类上的方法都要定义在原型上
+
+//类上的所有的方法中的this，都是要指向类的当前实例。这一点有可能和事件绑定中的this的原则冲突，一但冲突，强制按这里的原则来处理。
+
+//正式开始写：拖拽产品1.0版
+function Drag(ele){
+	this.ele=ele;
+	this.x=null;
+	this.y=null;
+	this.mx=null;
+	this.my=null;
+	//this.obj=ele;
+	//ele.click
+	//private
+	//不可枚举属性
+	//document.body.offsetParent==null;
+	//document.body.offsetparent==undefined;
+	
+	//下面这样写是存在this指向的问题的
+	//on(ele,"mousedown",this.down);
+	//规定的是this要指类的实例，事件绑定会导致down里的this指向ele
+	//要分清this.down这样，是指通过this这个对象找到定义的down方法，这不是执行。这样找到了这个方法的定义。
+	//在执行的时候，就和这个down是通过谁来找到的它没什么关系了。
+	//要分清方法的定义、通过某个对象找到这个方法的定义、方法的执行这三码事
+	//小明.三哥.大舅.妹子.三姐.请吃饭()
+	
+	this.DOWN=processThis(this.down,this);
+	this.MOVE=processThis(this.move,this);
+	this.UP=processThis(this.up,this);
+	on(ele,"mousedown",this.DOWN);
+	
+}
+Drag.prototype.down=function(e){
+	this.x=this.ele.offsetLeft;
+	this.y=this.ele.offsetTop;
+	this.mx=e.pageX;
+	this.my=e.pageY;
+	
+	if(this.ele.setCapture){
+		on(this.ele,"mousemove",this.MOVE);
+		on(this.ele,"mouseup",this.UP);
+		this.ele.setCapture();
+	}else{
+		on(document,"mousemove",this.MOVE);
+		on(document,"mouseup",this.UP);
+	}
+	e.preventDefault();
+}
+Drag.prototype.move=function(e){
+	this.ele.style.left=this.x+(e.pageX-this.mx)+"px";
+	this.ele.style.top=this.y+(e.pageY-this.my)+"px";
+}
+Drag.prototype.up=function(e){
+	if(this.ele.releaseCapture){
+		this.ele.releaseCapture();
+		off(this.ele,"mousemove",this.MOVE);
+		off(this.ele,"mouseup",this.UP);
+	}else{
+		off(document,"mousemove",this.MOVE);
+		off(document,"mouseup",this.UP);
+	}
+	
+}
+new Drag(div1);//所有和拖拽相关的信息（属性和方法），都是以Drag实例为承载体的
+var obj2=new Drag(div2);
+
+//当用new运算符去创建一个类的实例的时候，浏览器会做那些事
+//应该记住的三点：
+//1、创建一个属于这个类的实例，并且返回
+//2、这个实例上有__proto__属性，可以通过这个属性共享使用定义在构造函数的prototype上的方法
+//3、以这个实例为上下文，执行构造函数（一开始构造函数是个类名，现在它又是一个函数了），起初始化实例（配置环境的作用）
+
+
+</script>

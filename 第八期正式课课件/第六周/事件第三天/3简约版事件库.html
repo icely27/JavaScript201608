@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style type="text/css">
+#div1{ width:600px; height:200px; background:red;}
+</style>
+</head>
+
+<body>
+<div id="div1"></div>
+</body>
+</html>
+<script>
+function on(ele,type,fn){
+	if(ele.addEventListener){
+		ele.addEventListener(type,fn,false);
+		
+	}else{
+		if(!ele["onEvent"+type]){
+			ele["onEvent"+type]=[];	
+			ele.attachEvent("on"+type,function(){run.call(ele)});
+		}
+		var a=ele["onEvent"+type];
+		for(var i=0;i<a.length;i++){
+			if(a[i]==fn)return;
+		}
+		
+		a.push(fn);
+	}
+
+}
+
+
+function run(){
+	var e=window.event;
+	var type=e.type;
+	
+	e.target=e.srcElement;
+	e.pageX=(document.documentElement.scrollLeft||document.body.scrollLeft)+e.clientX;
+	e.pageY=(document.documentElement.scrollTop||document.body.scrollTop)+e.clientY;
+	e.preventDefault=function(){e.returnValue=false;}
+	e.stopPropagation=function(){e.cancelBubble=true;}
+	
+	var a=this["onEvent"+type];
+	if(a&&a.length){
+		for(var i=0;i<a.length;i++){
+			if(typeof a[i]=="function"){
+				a[i].call(this,e);	
+			}else{
+				a.splice(i,1);
+				i--;	
+			}
+		}
+	}
+	
+}
+
+function off(ele,type,fn){
+	if(ele.removeEventListener){
+		ele.removeEventListener(type,fn,false);
+	}else{
+		var a=ele["onEvent"+type];
+		if(a&&a.length){
+			for(var i=0;i<a.length;i++){
+				if(a[i]==fn){
+					a.splice(i,1);
+					i--;
+					//a[i]=null;
+					return;	
+				}
+			}
+		}
+	}
+}
+
+function fn1(){alert("fn1");}
+function fn2(){alert("fn2");}
+var n=0;
+function fn3(){
+	n++;
+	if(n==3){
+		off(this,"click",fn1);
+		off(this,"click",fn2);
+		off(this,"click",fn3);	
+	}
+	
+	//以下解释为什么会出现数组塌陷
+	//run执行：
+	//[fn1,fn2,fn3,fn4,fn5,fn6,fn7]
+	//当i==2的时候，执行fn3，把fn1,fn2,fn3删除了
+	//接下来i++，则i==3，而这会数组变成
+	//[fn4,fn5,fn6,fn7]
+	//被遍历的这个方法又修改了数组本身造成的
+	alert("fn3");
+	}
+function fn4(){alert("fn4");}
+function fn5(){alert("fn5");}
+function fn6(){alert("fn6");}
+function fn7(){alert("fn7");}
+function fn8(){alert("fn8");}
+
+on(div1,"click",fn1);
+on(div1,"click",fn2);
+on(div1,"click",fn3);
+on(div1,"click",fn4);
+on(div1,"click",fn5);
+on(div1,"click",fn6);
+on(div1,"click",fn7);
+on(div1,"click",fn8);
+</script>
