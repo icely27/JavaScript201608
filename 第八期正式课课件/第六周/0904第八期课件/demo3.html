@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        #div1 {
+            width: 422px;
+            height: 362px;
+            background-color: #fff;
+            margin: 120px auto;
+            text-align: center;
+            line-height: 362px;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #444;
+            border: 2px dashed rgb(119, 119, 119);
+        }
+
+        #div2 {
+            border: 1px solid #000;
+            border-radius: 5px;
+        }
+
+        #body .active {
+            border: 2px dashed yellow;
+        }
+
+    </style>
+
+</head>
+<body id="body">
+<div id="div1"> 将文件拖拽到此区域</div>
+<div id="div2"></div>
+
+</body>
+</html>
+<script>
+    var oDiv = document.querySelector("#div1");
+    var oDiv2 = document.querySelector("#div2");
+    oDiv.ondragenter = function(){
+        this.classList.add("active");/*增加类名*/
+        this.innerHTML = "可以释放啦！";
+    }
+    oDiv.ondragover = function(e){
+        e.preventDefault();//可以让拖拽元素放入到目标元素里
+
+    }
+    oDiv.ondragleave = function(){
+
+    }
+    oDiv.ondrop = function(e){
+        e.preventDefault();
+        this.classList.remove("active");
+        //获取拖拽的元素，并且在页面上显示出来
+        var files = e.dataTransfer.files;
+        for(var i = 0;i<files.length;i++){
+            showImg(files[i]);
+        }
+
+    }
+
+    function showImg(file){
+        var name = file.name;
+        var size = Math.floor(file.size/1024);
+        var type = file.type;
+        if(!/image\//.test(type)){
+            return false;
+        }
+        /*1KB = 1024字节*/
+        if(size>500){
+            return false;
+        }
+        var reader = new FileReader();
+        reader.readAsDataURL(file);/*以DataURL的形式把数据展示在页面*/
+        reader.onload = function(){/*成功时触发*/
+            //数据都是保存在this.result属性上
+           oDiv2.innerHTML+="<img src='"+this.result+"'/>";
+        }
+    }
+</script>

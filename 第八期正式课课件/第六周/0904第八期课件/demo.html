@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>移动端触摸事件</title>
+    <!--<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>-->
+    <style type="text/css">
+        #div1{
+            width: 200px;
+            height: 200px;
+            background: red;
+
+        }
+        #div1:hover{
+            width: 300px;
+            transition:all 1s ease-in-out;
+            /*transform:translate(100px);*/
+            /*-webkit-transform: translate(100px);/!*谷歌浏览器*!/*/
+            /*-moz-transform: translate(100px);/!*火狐浏览器*!/*/
+            /*-ms-transform: translate(100px);/!*ie浏览器器*!/*/
+            /*-o-transform: translate(100px);/!*欧朋浏览器*!/*/
+            /*/!*在移动端，只需要写标准写法和webkit前缀的写法*!/*/
+        }
+    </style>
+</head>
+<body>
+<div id="div1"></div>
+</body>
+</html>
+<script>
+    var oDiv = document.getElementById("div1");
+    oDiv.addEventListener("touchstart",function(e){
+       this.startX = e.changedTouches[0].pageX;
+    },false);
+    oDiv.addEventListener("touchmove",function(e){
+        e.preventDefault();//阻止默认的滚动行为
+        var moveX = e.changedTouches[0].pageX;
+        var pos = moveX - this.startX;
+        //往右滑动 pos是正值  左滑动 pos是负值
+        console.log(pos);
+    },false);
+    oDiv.addEventListener("touchend",function(e){
+
+    },false);
+</script>

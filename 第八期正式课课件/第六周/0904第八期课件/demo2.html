@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #outer {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #inner {
+            width: 500%;
+            height: 200px;
+            list-style: none;
+        }
+
+        #inner li {
+            width: 20%;
+            height: 100%;
+            float: left;
+        }
+
+        #inner li:nth-child(1) {
+            background: palegreen;
+        }
+
+        #inner li:nth-child(2) {
+            background: yellow;
+        }
+
+        #inner li:nth-child(3) {
+            background: red;
+        }
+
+        #inner li:nth-child(4) {
+            background: blue;
+        }
+
+        #inner li:nth-child(5) {
+            background: green;
+        }
+
+        #item {
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+        }
+
+        #item span {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 50%;
+            background: orange;
+            text-align: center;
+            color: #fff;
+        }
+
+        #item span.cur {
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+<div id="outer">
+    <ul id="inner">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <div id="item">
+        <span class="cur">1</span>
+        <span>2</span>
+        <span>3</span>
+        <span>4</span>
+        <span>5</span>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    /*
+    * 思路：
+    * touchstart : 记录下按下时坐标
+    * touchmove  : 记录下移动的距离，当往左滑动时，在当前位置上往左移动，往右滑动时，在当前位置上往右滑动
+    * touchend : 1.通过在touchmove时记录的移动的距离，判断滑动的方向，如果距离>0，获取上一张索引，如果距离<0,则获取下一张索引 2.让下一张或者上一张显示在当前页面上
+    *
+    * */
+
+    var slider = {
+        init: function (ele) {
+            //初始化数据，定义slider对象上都能访问的属性(inner,oLis,item,oSpans)
+            this.inner = ele.inner || {};
+            this.oLis = ele.oLis || {};
+            this.item = ele.item || {};
+            this.oSpans = ele.oSpans || {};
+            //给所有的li绑定touchstart,touchmove,touchend这三个事件
+            var that = this;
+            [].forEach.call(this.oLis, function (item, index) {
+                item.index = index;
+                item.addEventListener("touchstart", that.start, false);
+                item.addEventListener("touchmove", that.move, false);
+                item.addEventListener("touchend", that.end, false);
+
+            })
+        },
+        start: function (e) {
+            this.startX = e.changedTouches[0].pageX;
+            this.time = +new Date();
+        },
+        move: function (e) {
+            e.preventDefault();
+            /*阻止页面默认滚动行为*/
+            this.flag = true;
+            var now = +new Date();
+            if (now - this.time > 20) {/*时间太短了也不让移动*/
+                var moveX = e.changedTouches[0].pageX;
+                var pos = moveX - this.startX;//滑动的距离（可正可负）
+                this.movePos = pos;
+                var index = this.index;
+                //每个li的当前位置：-li的宽度*索引
+//            -375+(-100)  左移动
+//            -375 +(1000) 右移动
+                var duration = -this.offsetWidth * index + pos;
+                slider.inner.style.webkitTransform = "translate(" + duration + "px,0)";
+                slider.inner.style.webkitTransition = "0s";
+            }else{
+                this.flag = false;
+            }
+        },
+        end: function (e) {
+            if (this.flag) {/*判断下是点击还是滑动*/
+                var index = this.index;
+                var len = slider.oLis.length;
+                if (this.movePos > 0) {/*往右滑动*/
+                    this.prevsIndex = index == 0 ? 0 : index - 1;/*获取上一张索引*/
+                } else if (this.movePos < 0) {/*往左滑动*/
+                    this.prevsIndex = index == len - 1 ? len - 1 : index + 1; /*获取下一张的索引*/
+
+                }
+                var duration = -this.offsetWidth * this.prevsIndex;
+                slider.inner.style.webkitTransform = "translate(" + duration + "px)";
+                slider.inner.style.webkitTransition = "0.7s"; /*在0.7s之内平移到duration的位置*/
+                var nIndex = this.prevsIndex;
+                /*transition属性执行结束后会触发transitionend这个事件*/
+                slider.inner.addEventListener("webkitTransitionEnd", function () {
+                    this.style.webkitTransition = "";  /*解决动画积累的问题*/
+                    slider.setCur(nIndex);  /*设置焦点选中*/
+                }, false);
+                this.flag = false;
+            }
+        },
+        setCur: function (index) {
+            [].forEach.call(this.oSpans, function (item) {
+                item.className = "";
+            });
+            this.oSpans[index].className = "cur";
+        }
+
+    }
+    var obj = {
+        inner: document.querySelector("#inner"),
+        oLis: document.querySelectorAll("#inner >li"),
+        item: document.querySelector("#item"),
+        oSpans: document.querySelectorAll("#item>span")
+    }
+    slider.init(obj);
+
+
+</script>
