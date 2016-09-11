@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .bg {
+            width: 743px;
+            height: 419px;
+        }
+
+        .sea {
+            background: url("https://rescdn.qqmail.com/zh_CN/htmledition/images/webp/bottle/skin1/skin_island1e9c5d.jpg") 0 0 no-repeat;
+        }
+
+        .beach {
+            background: url("https://rescdn.qqmail.com/zh_CN/htmledition/images/webp/bottle/skin1/bg_sand1e9c5d.png") 0 0 no-repeat;
+            position: relative;
+        }
+
+        .box {
+            display: block;
+            position: absolute;
+            bottom: 60px;
+            left: 220px;
+        }
+
+        .icon {
+            width: 125px;
+            height: 46px;
+            display: inline-block;
+            background-image: url("https://rescdn.qqmail.com/zh_CN/htmledition/images/webp/bottle/skin1/icon27ccd8.png");
+            cursor: pointer;
+        }
+
+        .btnThrow {
+            margin-right: 18px;
+            background-position: 0 -93px;
+            width: 122px;
+            height: 46px;
+        }
+
+        .btnGet {
+            background-position: 0 -158px;
+            width: 127px;
+        }
+    </style>
+
+</head>
+<body>
+<div class="bg sea" id="sea">
+    <div class="bg beach" id="beach">
+        <div class="box">
+            <a id="throwBottle" href="javascript:void(0);" class="icon btnThrow"></a>
+            <a id="getBottle" href="javascript:void(0);" class="icon btnGet"></a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script src="ajax.js"></script>
+<script>
+    //    ajax({
+    //        url: './ajax.js',
+    //        method: 'get',
+    //        data: {a: 1, '中文': '珠峰培训'},
+    //        async: true,
+    //        success: function (data) {
+    //            console.log(data);
+    //        },
+    //        error: function (data, err) {
+    //            console.error(data, err);
+    //        }
+    //    })
+    var throwBottle = document.getElementById('throwBottle');
+    var getBottle = document.getElementById('getBottle');
+
+    throwBottle.onclick = function () {
+        var content = prompt('请输入内容');
+        if (!content) {
+            return;
+        }
+        ajax({
+            url: '/throwBottle',
+            method: 'post',
+            data: JSON.stringify({content: content}),
+            async: true,
+            success: function (data) {
+                alert('扔瓶子成功')
+            },
+            error: function (data, err) {
+                alert('请重试')
+            }
+        })
+    };
+
+    getBottle.onclick = function () {
+        ajax({
+            url: '/getBottle',
+            method: 'get',
+            async: true,
+            success: function (data) {
+                console.log(data)
+            },
+            error: function (data, err) {
+                console.error(data, err)
+            }
+        })
+    };
+
+
+</script>

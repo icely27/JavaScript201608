@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    window.name = 'global';
+    $(function(){
+        $.ajax({
+            async:true,
+            beforeSend:function(){
+
+            },
+            cache:true,
+            complete:function(xhr){
+
+            },
+            contentType:'application/x-www-form-urlencoded',
+            //
+            context:{name:'local'},
+            //注意参数data此处有坑:
+            data:{a:1,b:2,name:'中文'},
+            dataType:'text',
+            error:function(err){
+                console.error('ajax fail');
+            }
+            //。。。。。还有几个没写完
+        });
+        $.get('./demo1.html','hello',function(data){},'html');
+        $.ajax({
+            method:'get',
+            url:'./demo1.html',
+            data:'hello',
+            dataType:'html'
+        });
+        $.post('./demo1.html','postData',function(data){});
+        $.getJSON();
+        $.ajax({
+            url:'./text.json',
+            method:'get',
+            dataType:'json',
+            data:'a=1',
+            success:function(data){
+        }
+        });
+        $.getScript();
+    })
+
+</script>
+</body>
+</html>

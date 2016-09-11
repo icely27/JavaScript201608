@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    //(function(){})()和下面那个的区别?
+    //(function(){}())
+    jQuery.ajax({
+        async:true,
+        beforeSend:function(){
+
+        },
+        cache:true,
+        complete:function(xhr){
+
+        },
+        contentType:'application/x-www-form-urlencoded',
+        //
+        context:'',
+        //注意参数data此处有坑:
+        data:'',
+        dataType:'text'
+
+
+    });
+</script>
+</body>
+</html>

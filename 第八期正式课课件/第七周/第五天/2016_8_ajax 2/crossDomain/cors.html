@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        // step 1 获取cors对象
+        function getCORS() {
+            if (window.XDomainRquest) {
+                return new XDomainRquest();
+            }
+            var xhr = new XMLHttpRequest();
+            // 如果xhr对象的withCredentials存在,说明该对象支持cors,否则不支持
+            if (xhr.withCredentials !== void 0) {
+                return xhr;
+            }
+            throw new ReferenceError('当前浏览器不支持cors');
+
+            // 该属性标识 进行跨域请求是否携带cookie,默认值为false
+            // 如果该属性为true 进行跨域时会携带cookie
+//            xhr.withCredentials
+        }
+
+        var cors = getCORS();
+
+        cors.withCredentials = true;
+        // step 2 调用open方法
+        // 和ajax的前三个参数特点一模一样
+        cors.open('get', 'http://localhost:3000/cors', true);
+
+        // step
+        // 执行时间 当http事务完成时  自动执行此事件
+        // 相当于ajax对象readyState属性为4的时候
+        cors.onload = function () {
+            // 判断状态码
+            if (cors.status === 200) {
+                // 获取响应主体
+                console.log(cors.responseText);
+            }
+        };
+
+        // send
+        cors.send();
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

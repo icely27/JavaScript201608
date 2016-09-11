@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    var a = 1;
+    function fn(){
+        try{
+            a=1;
+            return a;
+        }catch(ex){
+
+        }finally{
+            a = 2;
+            //return a;
+        }
+    }
+
+    /*注意几点:如果都有return就走finally的结果,若果只有try里有return就走try的结果;
+    * 1.
+    * 2.
+    * 3.
+    * 4.
+    * */
+</script>
+</body>
+</html>

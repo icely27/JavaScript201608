@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.js"></script>
+    <script>
+        jQuery.ajax({
+            // 是否为异步请求,默认为true
+            async:true,
+            // 在调用ajax对象的send方法之前,调用此方法.
+            beforeSend:function(xhr,options){
+                // 显示loading图
+            },
+            // 是否缓存该请求,默认为true
+            // 注意事项:当dataType为jsonp或者script时,该属性默认为false
+            cache:true,
+            // 不管成功还是失败,都会执行此方法.
+            // 相当于try catch finally中的finally
+            // 执行完success或者error之后 执行此函数
+            complete:function(xhr){
+                // 关闭loading效果
+                console.log(this.name); // => local
+            },
+            // 请求首部中Content-Type.默认为表单提交,
+            // 当该属性设置为true时.根据请求主体的数据自动设置Content-Type
+            contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+            // beforeSend() complete() success() error() 这四个函数中的this
+            context:{name:'local'},
+            // 往服务器发送的参数
+            // 可以传三种 字符串 对象 数组
+            // 此处有坑:当该属性传入的为FormData时,processData设置为false并且将contentType设置为true
+            data:'',
+            // 按照指定格式,格式化服务器返回的数据,默认值为text
+            // 注意事项: 当格式化失败时,会执行error方法.
+            /**
+             * text 获取xhr.responseText
+             * json 将响应主体格式化为json对象,并返回.
+             * xml 将响应主体格式化为xml文档,并返回
+             * script 将响应主体格式化为JavaScript脚本并执行
+             * html 将响应主体格式化为html对象,并返回
+             * jsonp 跨域请求
+             */
+            dataType:'text',
+            // 当ajax逻辑失败时,执行此函数
+            // 触发时机:ajax请求失败 dataType格式化失败 请求超时
+            error:function(err){
+
+            },
+            // 自定义请求首部
+            headers:{'key':'value'},
+            // http方法.默认值为get方法
+            // 在jquery1.9版本之前使用type属性标识http方法
+            // 1.9版本之后使用method属性标识http方法
+            method:'get',
+//            type:'get'
+            // 修改服务器响应首部中的Content-Type 改为 application/json
+            mimeType:'application/json',
+            // 当data为一个对象时,是否将data格式化为请求参数的格式 key1=value1&key2=value2, 默认值为true.
+            // 此处有坑:当data为FormData时,该属性一定要设置为false,否则FormData无法发送到服务器,
+            processData:true,
+            // ajax完成执行此函数
+            success:function(data){
+                // data为经过dataType格式化之后的响应主体
+            },
+            // 请求超时毫秒,默认值0 表示不执行超时逻辑
+            // 一般将此属性设置为3秒(3000毫秒),如果过了3秒服务器还没响应,则执行error函数.
+            timeout:3000,
+            // ajax请求地址
+            url:''
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>

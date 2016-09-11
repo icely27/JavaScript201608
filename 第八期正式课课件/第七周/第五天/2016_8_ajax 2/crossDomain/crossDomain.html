@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        //        var abc = 1;
+        //        console.log(aaa);
+        //        window.aaa = function (data) {
+        //            console.log(data)
+        //        }
+    </script>
+</head>
+<body>
+<!-- onload="javascript:console.log(aaa);"-->
+<!--<script src="http://localhost:3000/crossDomain?name=aaa"></script>-->
+</body>
+</html>
+<script src="jsonp.js"></script>
+<script>
+    for(var i=0;i<100;i++){
+        jsonp('http://localhost:3000/crossDomain', 'a=1&b=2', 'name',
+                function (data) {
+                    console.log(data);
+                });
+    }
+
+</script>

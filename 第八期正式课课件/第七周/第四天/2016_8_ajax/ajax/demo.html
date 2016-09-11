@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        var getXHR = (function () {
+            var list = [function () {
+                return new XMLHttpRequest();
+            }, function () {
+                return new ActiveXObject('Microsoft.XMLHTTP');
+            }, function () {
+                return new ActiveXObject('Msxml2.XMLHTTP');
+            }, function () {
+                return new ActiveXObject('Msxml3.XMLHTTP');
+            }];
+
+            var xhr = null;
+            while (xhr = list.shift()) {
+                try {
+                    xhr();
+                    return xhr;
+                } catch (ex) {
+
+                }
+            }
+            throw new ReferenceError('当前浏览器不支持ajax功能');
+        })();
+
+        // step 1
+        var xhr = getXHR();
+
+        // step 2
+        xhr.open('GeT', './info.txt', false, 'zhangyatao', 'mima');
+
+
+        console.log('before send');
+        setTimeout(function () {
+            xhr.send();
+        }, 0);
+
+        console.log('after send');
+
+        // step 3
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log('response body');
+            }
+        };
+    </script>
+</head>
+<body>
+
+</body>
+</html>

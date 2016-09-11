@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        var a = 1;
+        function fn() {
+            try {
+                a = 3;
+                return a;
+            } catch (ex) {
+
+            } finally {
+                a = 2;
+                return a;
+            }
+        }
+        console.log(fn());
+    </script>
+</head>
+<body>
+<pre>
+    var a=1;
+    function fn(){
+        try{
+            a=3;
+            return a+1;
+        }catch(ex){
+
+        }finally{
+            a=2;
+            // return a;
+        }
+    }
+    console.log(fn());
+    // 1 先走try 定义a=3; 执行return a+1;因为有finally的存在,所以"return a+1"需要拆分为两步 第一步 先执行"a+1"得到"4", 然后在执行finally里的语句.把变量a更改2,此时finally执行完毕.重新返回try语句中"return a+1"那部分.由于之间已经将该语句拆分为两部分,开始执行第二部分"return 4"; fn方法执行完毕.
+</pre>
+<pre>
+1、不管有木有出现异常，finally块中代码都会执行；
+2、当try和catch中有return时，finally仍然会执行；
+3、finally是在return后面的表达式运算后执行的
+    （此时并没有返回运算后的值，而是先把要返回的值保存起来，
+    管finally中的代码怎么样，返回的值都不会改变，
+    任然是之前保存的值），所以函数返回值是在finally执行前确定的；
+4、finally中最好不要包含return，否则程序会提前退出，返回值
+    不是try或catch中保存的返回值。
+</pre>
+</body>
+</html>

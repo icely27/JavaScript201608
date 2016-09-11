@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        var url = 'http://www.baidu.com?id=123&name=中文';
+
+        var encodeURL = encodeURI(url);
+        console.log(encodeURL);
+        // => "http://www.baidu.com?id=123&name=%E4%B8%AD%E6%96%87"
+        decodeURI(encodeURL);
+        // => 'http://www.baidu.com?id=123&name=中文'
+
+        var encodeURLComponent = encodeURIComponent(url);
+        // url的component包括哪些 : / ? & = #
+        console.log(encodeURLComponent);
+        // => "http%3A%2F%2Fwww.baidu.com%3Fid%3D123%26name%3D%E4%B8%AD%E6%96%87"
+
+        encodeURLComponent(encodeURLComponent);
+        // => 'http://www.baidu.com?id=123&name=中文'
+    </script>
+</head>
+<body>
+
+</body>
+</html>

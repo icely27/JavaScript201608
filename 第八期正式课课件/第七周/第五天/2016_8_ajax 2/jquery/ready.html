@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.js"></script>
+    <script>
+        $(window).load(function () {
+            console.log('load')
+        });
+        $(document).ready(function () {
+            console.log('ready')
+        });
+
+        var ready = (function () {
+            // 标识页面是否加载完成,默认值为false
+            var pageLoaded = false;
+            if (window.addEventListener) {
+                return function (callback) {
+                    // 先判断页面是否已经加载完成
+                    if (pageLoaded) {
+                        callback();
+                        return;
+                    }
+                    window.addEventListener('DOMContentLoaded', function () {
+                        pageLoaded = true;
+                        callback();
+                    }, false);
+                }
+            }
+            return function (callback) {
+                if (pageLoaded) {
+                    callback();
+                    return;
+                }
+                // 当document的readyState属性改变时会执行此事件
+                document.attachEvent('onreadystatechange', function () {
+                    if (document.readyState === 'interactive') {
+                        pageLoaded = true;
+                        callback();
+                    }
+                });
+            };
+
+
+            // document.readyState
+            /**
+             * loading html正在加载
+             * interactive DOM加载完成,但是其他外链资源还没有加载
+             * complete 所有资源加载完成
+             */
+        })();
+        ready(function () {
+            console.log('my ready');
+        })
+    </script>
+</head>
+<body>
+
+</body>
+</html>

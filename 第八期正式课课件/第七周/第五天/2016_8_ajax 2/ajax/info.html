@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        /**
+         * ie7+ chrome firefox opera safari
+         * @type {XMLHttpRequest}
+         */
+        //        var xhr = new XMLHttpRequest();
+
+        /**
+         * ie6 - ie9
+         * @type {ActiveXObject}
+         */
+//        var xhrInIE = new ActiveXObject('Microsoft.XMLHTTP');
+        var xhrInIE2 = new ActiveXObject('Msxml2.XMLHTTP');
+        var xhrInIE3 = new ActiveXObject('Msxml3.XMLHTTP');
+
+
+        function getXHR() {
+            // 判断当前浏览器
+            if (window.XMLHttpRequest) {
+                console.log('chrome');
+                return new XMLHttpRequest();
+            }
+            console.log('ie');
+            return new ActiveXObject('Microsoft.XMLHTTP');
+        }
+
+        // 惰性函数:会把第一次计算出来的结果缓存起来,接下来的调用都直接调用第一次计算缓存起来的结果.
+        function getXHR2() {
+            var fn = null;
+            if (window.XMLHttpRequest) {
+                console.log('chrome');
+                fn = function () {
+                    return new XMLHttpRequest()
+                };
+            } else {
+                console.log('ie');
+                fn = function () {
+                    return new ActiveXObject('Microsoft.XMLHTTP');
+                }
+            }
+//            getXHR2 = fn;
+//            return fn();
+
+            return (getXHR2 = fn)();
+        }
+
+        var getXHR3 = (function () {
+            if (window.XMLHttpRequest) {
+                console.log('chrome');
+                return function () {
+                    return new XMLHttpRequest();
+                }
+            }
+            console.log('ie');
+            return function () {
+                return new ActiveXObject('Microsoft.XMLHTTP')
+            }
+        }());
+
+//        (function(){})()(function(){})()
+//        (function(){}())(function(){}())
+
+        var getXHR4 = (function () {
+            var list = [function () {
+                return new XMLHttpRequest();
+            }, function () {
+                return new ActiveXObject('Microsoft.XMLHTTP');
+            }, function () {
+                return new ActiveXObject('Msxml2.XMLHTTP');
+            }, function () {
+                return new ActiveXObject('Msxml3.XMLHTTP');
+            }];
+
+            var xhr = null;
+            while (xhr = list.shift()) {
+                try {
+                    xhr();
+                    return xhr;
+                } catch (ex) {
+                }
+            }
+            // 如果逻辑走到此处 说明当前浏览器压根不支持ajax功能
+            throw new ReferenceError('当前浏览器不支持ajax功能')
+        })();
+
+        //        for (var i = 0; i < 20; i++) {
+        //            var xhr = getXHR3();
+        //            console.log(xhr);
+        //        }
+
+
+        // step 1 获取ajax对象
+        var xhr = getXHR4();
+
+        // step 2 调用open方法 打开http请求
+        /**
+         * param 1 http方法,不区分大小写 get post head put delete
+         * 放到请求报文的起始行第一部分
+         * param2 请求地址
+         * 放到请求报文起始行的第二部分
+         * get系方法需要把发送的参数拼接到请求地址后
+         * param3 是否为异步请求,默认值为true 选填
+         * param4 URL中的用户名 选填 默认值undefined
+         * param5 URL中的密码 选填 默认值undefined
+         */
+        xhr.open('http method', 'request URI', 'isAsync', 'username', 'password');
+
+        // step 3 接受服务器响应
+        // 需要往xhr对象上注册一个方法
+        // 改事件的执行时间:当xhr对象的readyState属性发生改变时,自动执行该方法
+        xhr.onreadystatechange = function () {
+            // 判断http事务是否完成
+            if (xhr.readyState === 4) {
+                // 判断状态码
+                if (/^2\d{2}$/.test(xhr.status) || xhr.status === 304) {
+                    // 获取响应主体
+
+                    // 将响应主体格式化为字符串,格式化失败返回""
+                    var responseText = xhr.responseText;
+
+                    //将响应主体格式化为xml文档,如果格式化失败则返回null
+                    var responseXML = xhr.responseXML;
+
+                    // 直接获取响应主体,不做任何转换.
+                    // 兼容性 ie10+
+                    var response = xhr.response;
+                }
+            }
+        };
+
+        // 标识当前ajax对象的状态
+        /**
+         * 0 默认值,ajax对象刚刚实例化完成,什么操作都还没有执行 等于xhr.UNSENT
+         * 1 执行完open方法,该属性自动变为1,等于xhr.OPENED
+         * 2 开始接收响应起始行和首部自动变为2 等于xhr.HEADERS_RECEIVED
+         * 3 开始接收响应主体自动变为3 等于xhr.LOADING
+         * 4 http事务完成自动变为4 等于xhr.DONE
+         */
+        //        xhr.readyState
+
+
+        // step 4 发送http请求
+        /**
+         * 参数重载 null undefined string bolb arraybuffer FormData xml
+         * 注意事项:该方法会将参数放到请求主体中.所以get系方法不需要转参数
+         */
+        xhr.send();
+    </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+跨域
+cross domain
+
+URL中必须同时存在三个部分  方案 域名 端口
+
+同域请求
+该请求中URL中的方案 域名 端口和当前的宿主页面的方案 域名 端口一致,那么这个请求就叫做同域请求.
+
+跨域请求
+该请求URL中的方案 域名 端口和当前宿主页面的方案 域名 端口有任何一个不一致,那么这个请求就叫做跨域请求.
+
+
+同源策略
+同源策略是一种限制JavaScript可以再哪些地方运行,哪些地方不能运行的一个安全限制.
+
+例子1 ajax发起跨域请求 -> 触发同源策略
+例子2 iframe加载跨域内容,获取iframe里html文档的内容 -> 触发同源策略
+
+问题  既然有同源策略的存在.那么成功不触发同源策略而的发起跨域请求?
+
+html元素中可以成功加载跨域资源的元素有哪些?
+
+img 会把加载过来的跨域或者同域内容强制当成图片来显示.
+
+用处:网站统计, 因为每浏览一次网页,该页面的图片都会加载一次(该图片不能被缓存).所以可以记录该图片在这个页面内一共被访问了多少次来知道该页面的访问次数.
+
+script 会把加载过来的跨域或者同域内容强制当成JavaScript来执行.
+
+iframe 会成功加载跨域或者同域的内容,但是无法通过js去获取.
+
+为什么通过script实现的跨域请求叫做jsonp?
+这是根据接口的数据格式来命名的.functionName(/* json data */).这种数据格式叫做"json data padding functionName" -> "json data padding" -> "json padding" -> "jsonp"
+
+jsonp的注意事项:
+1 jsonp是一个协议 (协定 商议  和后端协定商议一个跨域解决方案规范,只要是jsonp接口必须遵循此规范.)
+条件1 前端在调用jsonp接口之前必须在全局环境下定义一个函数,用来接收服务器返回的数据.
+条件2 后端必须提供一个传输全局方法名的请求参数.详情见例子中的name;
+该请求参数有一个学名叫 jsonpcallback.例子中的josnpcallback就是name
+条件3 前端在请求时,需要在URL后面拼接上后端提供的请求参数和已定义好的全局函数名.
+条件4 服务器返回的数据格式必须为 functionName(/* json data*/);其中functionName为请求URL中请求参数里后端定义好的值.
+
+2 jsonp是通过script的特点来实现的跨域请求.因为html中所有href和src的请求都是GET方法请求.所以jsonp只能是get方法请求.
+大小限制 容易被缓存 没有请求主体
+
+3 jsonp没有浏览器兼容性
+
+
+另外一种跨域解决方法
+
+CORS 跨域资源共享
+cross origin resource sharing
+
+cors是利用浏览器提供的API来实现跨域请求.
+
+兼容性 ie8+
+
+标准浏览器 XMLHttpRequest
+ie8 ie9 XDomainRequest
+
+cors的响应必须携带响应首部Access-Control-Allow-Origin.该首部可以设置两种类型的值
+类型1 "*" 任何请求都可以成功访问
+类型2 指定域名 只有指定域名的请求才可以成功访问
+
+Access-Control-Allow-Credentials
+如果跨域请求需要携带cookie
+那么除了将withCredentials设置为true之外,还需要添加一个响应首部
+Access-Control-Allow-Credentials.并且将该首部的值设置为true
+
+jsonp和跨域资源共享的区别
+
+相同点:
+1 都是用来解决跨域请求
+2 都需要server强力支持(jsonp需要server拼接数据,而cors需要server添加响应首部)
+3 都是用来解决接口级别的跨域请求.(不能用来解决页面级别[获取iframe里的跨域内容]的跨域操作)
+
+不同点:
+1 实现方式 josnp是通过script实现,而cors是通过浏览器提供的API来实现的.
+2 http方法 jsonp只能用get方法,而cors是get post put head delete都可以用
+3 浏览器兼容性 jsonp没有兼容性而cors是ie8+才可以使用

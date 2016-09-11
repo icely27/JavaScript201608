@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.js"></script>
+    <script>
+        $(function () {
+            $.get('./$.get.html', '', 'text')
+                    .done(function(data){
+                       console.log('done:',data);
+                    })
+                    .fail(function (err) {
+                        console.log('fail:', err)
+                    }).always(function(){
+                        console.warn('complete')
+                    });
+
+            // $.post方法和$.get方法只有http方法不同,剩下参数一模一样
+        })
+    </script>
+</head>
+<body>
+
+</body>
+</html>

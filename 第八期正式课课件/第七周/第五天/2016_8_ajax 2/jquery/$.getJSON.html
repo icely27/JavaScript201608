@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.js"></script>
+    <script>
+        $(function () {
+//            $.getJSON('./test.json', 'a=1&b=2', function (data) {
+//                console.log('callback:', data)
+//            }).done(function (data) {
+//                console.log('data:', data);
+//            });
+
+            // 动态加载script脚本
+            $.getScript('./test.js', function (data) {
+                // data为请求的脚本内容
+                console.log('脚本加载完成:', data);
+            });
+        })
+    </script>
+</head>
+<body>
+
+</body>
+</html>

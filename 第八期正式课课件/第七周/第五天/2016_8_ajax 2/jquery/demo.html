@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.js"></script>
+    <script>
+        window.name = 'global';
+        // 注册ready事件
+        $(function () {
+            // jquery提供的最基本的ajax函数
+            $.ajax({
+                async: true,
+                beforeSend: function (xhr) {
+                    console.log('before send context name:', this.name);
+                    console.log('before send');
+                },
+                cache: true,
+                complete: function (xhr) {
+                    console.log('complete');
+                },
+//                contentType:''
+                context: {name: 'local'},
+                data: {a: 1, b: 2, 'name': '中文'},
+                dataType: 'text',
+                error: function (err) {
+                    console.error('ajax failure');
+                },
+                headers: {'zidingyi': 'zhufengpeixun'},
+                method: 'get',
+                success: function (data) {
+                    console.info('response data:', data);
+                },
+                timeout: 3000,
+                url: './asdfasdf.html'
+            });
+
+            // 简单的get方法请求,接受4个参数
+            /**
+             * 参数1 请求地址
+             * 参数2 发送的参数
+             * 参数3 成功时的回调函数
+             * 参数4 dataType
+             */
+            $.get('./demo.html', 'hello', function (data) {
+
+            }, 'html');
+
+            $.ajax({
+                method: 'get',
+                url: './demo.html',
+                data: 'hello',
+                success: function (data) {
+
+                },
+                dataType: 'html'
+            });
+
+
+            // 提供了一个简单的post请求
+            /**
+             * 参数1 请求地址
+             * 参数2 发送的数据
+             * 参数3 回调函数
+             * 参数4 dataType
+             */
+            $.post('./demo.html', 'postData', function (data) {
+
+            }, 'html');
+
+            $.ajax({
+                method: 'post',
+                url: './demo.html',
+                data: 'postData',
+                success: function (data) {
+
+                },
+                dataType: 'html'
+            });
+
+            // 提供了一个简单的通过get方法请求来获取json对象的方法
+            /**
+             * 参数1 请求地址
+             * 参数2 发送的参数
+             * 参数3 回调函数
+             */
+            $.getJSON('./test.json', 'a=1', function (data) {
+
+            });
+
+            $.ajax({
+                url: './test.json',
+                method: 'get',
+                dataType: 'json',
+                data: 'a=1',
+                success: function (data) {
+                }
+            });
+
+            // 提供了一个简单的通过get方法请求来获取JavaScript的方法
+            /**
+             * 参数1 请求地址
+             * 参数2 回调函数
+             */
+            $.getScript('./test.js', function (data) {
+
+            });
+
+            $.ajax({
+                url: './test.js',
+                method: 'get',
+                dataType: 'script',
+                success: function (data) {
+
+                }
+            })
+
+
+        });
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

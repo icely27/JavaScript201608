@@ -1,0 +1,13 @@
+ajax
+异步JavaScript和xml
+
+ajax是通过浏览器提供的API(application programing interface)来实现的http异步请求操作.
+
+处理兼容性
+
+1 优雅降级 先保证最新的浏览器可以用,逐渐向低版本浏览器过渡.
+2 渐进增强 先保证低版本浏览器可以用.
+
+实现:
+标准浏览器 XMLHttpResponse
+ie6-ie9 ActiveXObject
