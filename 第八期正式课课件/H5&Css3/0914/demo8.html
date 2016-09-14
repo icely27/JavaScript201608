@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        .wrap{
+            width: 200px;
+            height: 200px;
+            border: 1px solid green;
+            margin: 100px auto;
+           transform-style: preserve-3d;/*作用在变形元素的父标签上，变形元素是在3D空间里展示*/
+            perspective: 500px;/*视距 隔着多远去看物体 ,到Z轴平面的距离*/ /*在3D空间里有近大远小的概念*/
+            perspective-origin:center;/*默认透视点的位置是在元素的中心点*/
+        }
+        .item{
+            width: 200px;
+            height: 200px;
+            background: red;
+
+        }
+        .wrap:hover .item{
+            /*transform:scale3d(1,1,0.2) rotateX(45deg);/!*必须配合其他变形方法一起用才能起作用*!/*/
+            /*transform: rotateX(-45deg);/!*正：往前翻 负：往后翻*!/*/
+            /*transform:rotateY(-45deg);/!*正：往右翻转 负：往左翻转*!/*/
+            /*transform:rotateZ(45deg);/!*效果等同于rotate()方法，但是rotateZ()是在3D空间的Z轴上旋转的*!/*/
+            /*transform:rotate3d(0,0,1,45deg);*/
+            transform:rotateX(45deg) rotateY(45deg);
+            /*
+            rx:x轴的向量坐标
+            ry:y轴的向量坐标
+            rz:z轴的向量坐标
+            a:角度
+            */
+            transition: 1s;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="item"></div>
+</div>
+</body>
+</html>

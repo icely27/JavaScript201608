@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        *{
+            margin:0;
+            padding:0;
+        }
+        ul li{
+            width: 200px;
+            height: 200px;
+            padding: 10px;
+            margin: 10px;
+            border: 30px solid rgba(77, 179, 27, 0.5);
+            background: url(image/baby.jpg) no-repeat;
+            float: left;
+            list-style: none;
+        }
+        ul li:nth-child(1){
+            /*background-origin: border-box;*/
+            background-clip:padding-box ;
+        }
+        ul li:nth-child(2){
+            /*background-origin: padding-box;/!*默认值*!/*/
+            background-clip: border-box;
+        }
+        ul li:nth-child(3){
+            /*background-origin: content-box;*/
+            background-clip: content-box;
+        }
+        ul li:nth-child(4){
+            background-origin: border-box;/*默认值*/
+        }
+        ul li:nth-child(5){
+            background: url(image/hs.jpg) -100px -200px;
+            -webkit-background-clip: text;
+            color: transparent;
+            font-size: 60px;
+        }
+
+
+        ul li:nth-child(6){
+            background-size:contain;/*按照原来的比例收缩，背景图显示完整，但是不一定铺满整个容器*/
+            background-size:cover;/*按照原来的比例收缩，背景图不一定显示完整，但是一定铺满整个容器*/
+            -webkit-filter: saturate(4);
+        }
+        body{
+            /*height: 1000px;*/
+            /*background: url(image/baby.jpg) no-repeat;*/
+            /*background-attachment: fixed;/!*scroll*!/*/
+        }
+        ul li:nth-child(7){
+            width: 500px;
+            height: 500px;
+            -webkit-mask-image: url(image/mask.png);
+            -webkit-mask-repeat:repeat;
+            -webkit-mask-position:50px 50px ;
+        }
+
+
+
+
+    </style>
+</head>
+<body>
+<ul>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li>珠峰培训</li>
+    <li></li>
+    <li></li>
+</ul>
+</body>
+</html>

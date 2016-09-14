@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul{
+            list-style: none;
+            width: 400px;
+            margin: 0 auto;
+            background: palegreen;
+        }
+        ul li{
+           display: inline-block;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            background: #000;
+            margin: 10px;
+            padding: 10px;
+            text-align: center;
+            color: #fff;
+            font-size: 30px;
+        }
+        /*关系选择器*/
+        .aa + div{
+            color: red;
+        }
+        .aa ~ div{
+            color: blue;
+        }
+        /*结构选择器*/
+        /*ul :nth-child(2){*/
+           /*background: red;*/
+        /*}*/
+        /*ul :nth-child(3n){/!*n从零开始*!/*/
+            /*background: blue;*/
+        /*}*/
+        /*ul :nth-child(3n+1){*/
+            /*background: yellow;*/
+        /*}*/
+        /*nth-of-type是限定元素类型的子元素*/
+        ul li:nth-of-type(2){/*1.找ul下的第二个子元素 2.第二个资源的标记名必须是li*/
+            background: red;
+        }
+
+        /*ul :only-child{*/
+            /*color: green;*/
+        /*}*/
+        ul :only-of-type{
+            color: orange;
+        }
+        div:empty{
+            height: 30px;
+            background: pink;
+        }
+        ul li:not(.a1){
+            border-radius: 50%;
+        }
+       /*ul li[class|="zf"]{/!*等于zf或者zf-*!/*/
+           /*background: orange;*/
+       /*}*/
+        ul li[class*="zf"]{/*属性值只要包含zf就行*/
+        /*background: orange;*/
+        }
+        ul li[class$="zf"]{/*属性值只要包含zf就行*/
+            background: orange;
+        }
+        /*动态伪类选择器 hover*/
+        ul li:hover{
+            background: pink;
+        }
+
+        #div1:target{
+            display: block;
+            height: 50px;
+            background: pink;
+        }
+/*通过目标伪类选择器实现手风琴效果 */
+
+
+        #div1:after{
+            content: "2222";
+            color: red;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+<a href="#div1">按钮</a>
+<div id="div1">目标元素1</div>
+
+<!--<div>00</div>
+<div class="aa">11</div>
+<div>222</div>
+<div>333</div>-->
+<ul>
+    <!--<p>111</p>-->
+    <li>1</li>
+    <li>2</li>
+    <li class="zf zfpx">3</li>
+    <li class="azfpx">4</li>
+    <li class="zf-px aa">5</li>
+    <li class="zf">6</li>
+    <li>7</li>
+    <li>8</li>
+    <li>9</li>
+    <li>10</li>
+</ul>
+<div>
+
+</div>
+<div></div>
+</body>
+</html>
+<!--
+first-child
+first-of-type
+last-child
+last-of-type
+only-child
+only-of-type
+
+
+-->

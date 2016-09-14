@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        #wrap{
+            border:1px solid #000;
+            width: 200px;
+            height: 200px;
+            margin: 100px auto;
+        }
+        #div1{
+            width: 200px;
+            height: 200px;
+            background: red;
+            /*transform: rotate(45deg) translate(100px);*/
+            transform: translate(100px)  rotate(45deg);
+
+        }
+        #div1:hover{
+            /*transform:skew(15deg,15deg);*/
+            /*
+            x:水平方向的倾斜的角度，正->左 负->右
+            y:垂直方向的倾斜的角度，正->下 负->上
+            */
+            /*transform:rotate(45deg);*/
+            /*transform: translate(100px,-100px);/!*移动的方向和left,top值是一样*!/*/
+            /*tranfrom:translate3d(100px,0,0);/!*开启硬件加速功能，这样能减少动画闪烁，卡顿，迟疑的现象*!/*/
+            /*transition: 1s;*/
+            /*transform-origin:left;/!*设置变形的基准点*!/*/
+
+
+        }
+    </style>
+</head>
+<body>
+<div id="wrap">
+<div id="div1"></div>
+</div>
+</body>
+</html>

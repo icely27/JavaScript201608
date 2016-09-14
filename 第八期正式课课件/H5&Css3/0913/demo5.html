@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        #div1{
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 100px 0 0 100px;
+            background: radial-gradient(red,green);
+            background: -webkit-radial-gradient(red,green);
+            animation-name:move;
+            animation-duration: 1s;
+            animation-iteration-count: 2;/*无限循环次*/
+            animation-delay:0s;
+            animation-fill-mode: forwards;
+            animation-direction: alternate;
+        }
+        @keyframes move {
+            0%{
+                transform: translate(100px,100px); /*第一帧*/
+            }
+            50%{
+                transform: translate(200px,200px);
+            }
+            100%{
+                transform: translate(400px,100px);
+            }
+        }
+
+        @-webkit-keyframes move {
+            0%{
+                -webkit-transform: translate(100px,100px); /*第一帧*/
+            }
+            50%{
+                -webkit-transform: translate(200px,200px);
+            }
+            100%{
+                -webkit-transform: translate(400px,100px);
+            }
+        }
+    </style>
+</head>
+<body>
+<!--
+animation动画 ：
+    1.@keyframes声明关键帧动画
+    2.animation调用声明的关键帧动画
+-->
+<div id="div1"></div>
+</body>
+</html>

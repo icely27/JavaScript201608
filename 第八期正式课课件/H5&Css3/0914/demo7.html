@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        .box{
+            width: 293px;
+            overflow: hidden;
+
+        }
+        .item{
+            width: 293px;
+            height: 202px;
+        }
+        .item img{
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s ease-out;
+        }
+        .box:hover img{
+            transform: scale(1.2);
+            /*animation:move 1s ease-out 1 both;*/
+        }
+       /* @keyframes move {
+            0%{
+                transform: scale(1);
+            }
+            100%{
+                transform: scale(1.2);
+            }
+        }*/
+
+        /*另一个例子的帧动画*/
+        /*@keyframes move {
+            0%,50%,100%{
+                transform: rotate(0deg);
+            }
+            25%{
+              transform: rotate(-25deg);
+            }
+            75%{
+                transform: rotate(25deg);
+            }
+
+        }*/
+    </style>
+</head>
+<body>
+<div class="box">
+    <div class="item">
+        <img src="image/hs.jpg">
+    </div>
+</div>
+</body>
+</html>

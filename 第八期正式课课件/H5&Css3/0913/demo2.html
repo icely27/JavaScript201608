@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        *{
+            margin:0;
+            padding:0;
+        }
+        ul li{
+            width: 200px;
+            height: 200px;
+            padding: 10px;
+            margin: 20px;
+            border: 1px solid rgba(77, 179, 27, 1);
+            float: left;
+            list-style: none;
+        }
+        ul li:nth-child(1){
+            /*盒子阴影(单阴影)，往右偏移5px,模糊半径10px*/
+            box-shadow: 10px 0 10px -5px pink ;
+            /*扩展半径如果是正值：往外扩展，如果是负值：往内收缩*/
+        }
+
+        ul li:nth-child(2){
+            box-shadow: 2px 3px 5px pink,3px 4px 8px orange,5px 7px 8px green,7px 9px 10px #ccc;
+        }
+
+        ul li:nth-child(3){
+            font-size: 60px;
+            text-shadow: 2px 0 5px orange,3px 4px 5px orange,5px 7px 5px green,7px 9px 6px #ccc;
+        }
+
+        ul li:nth-child(4){
+            font-size: 60px;
+            -webkit-text-stroke: 2px blue;
+            color: transparent;
+        }
+
+
+    </style>
+</head>
+<body>
+<ul>
+    <li></li>
+    <li></li>
+    <li>珠峰培训</li>
+    <li>珠峰培训</li>
+    <li></li>
+</ul>
+</body>
+</html>
