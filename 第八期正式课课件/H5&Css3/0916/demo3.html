@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>LESS-CSS预处理器</title>
+    <link rel="stylesheet/less"  charset="utf-8" href="css/index.less"/>
+    <script>
+        var less = {
+            env: "development",/*开发环境*/
+            //->poll:在监视模式下，每两次请求之间的时间间隔(ms)
+            poll: 1000
+        }
+
+    </script>
+    <script src="js/less-2.5.3.min.js"></script>
+    <script language="javascript">
+        //->启用监视模式
+        less.watch();
+    </script>
+</head>
+<style type="text/css">
+    .div6.aa {
+        color: red;
+        font-size: 30px;
+    }
+
+</style>
+<body>
+<div class="div6">
+    <p>
+        <a href="###"></a>
+    </p>
+</div>
+<div class="div6 aa">111</div>
+<div class="div6 aa">22</div>
+<div class="div6">333</div>
+
+</body>
+</html>

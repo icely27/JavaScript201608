@@ -1,0 +1,214 @@
+@charset "utf-8";
+.banner {
+  color: #ffffff;
+  font-weight: bold;
+  line-height: 40px;
+  margin: 0 auto;
+  background: url("../img/back.png");
+}
+.widget {
+  color: #0ee;
+  background-color: #999999;
+}
+.class {
+  one: 1;
+}
+.class .brass {
+  three: 3;
+}
+.aa,
+#div1 {
+  color: red;
+}
+#div1 {
+  width: 100px;
+  height: 100px;
+}
+div pre,
+p:hover,
+.some-class {
+  font-size: 20px;
+}
+.f,
+p:hover,
+.some-class {
+  color: yellow;
+}
+@media screen {
+  .selector1,
+  .topLevel {
+    color: blue;
+  }
+}
+.topLevel {
+  font-size: 14px;
+}
+/*
+1.全局下的extend可以匹配任意作用域下的混合集
+2.当前作用域下的extend只能匹配当前作用下的混合集，不能匹配其他作用域中的混合集
+*/
+.my-hover-mixin {
+  /*不加()编译后再CSS中输出,加()则编译后不会在Css输出*/
+}
+.my-hover-mixin:hover {
+  border: 1px solid red;
+}
+button {
+  font-size: 16px;
+  /*不加()编译后再CSS中输出,加()则编译后不会在Css输出*/
+  /*()可加可不加*/
+}
+button:hover {
+  border: 1px solid red;
+}
+#header {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+.a {
+  transition: height 1s ease-in-out 1s;
+  -webkit-transition: height 1s ease-in-out 1s;
+  -moz-transition: height 1s ease-in-out 1s;
+  -ms-transition: height 1s ease-in-out 1s;
+  -o-transition: height 1s ease-in-out 1s;
+  /*不写参数名时，得一一对应严格按照参数的个数写下来*/
+}
+@keyframes move {
+  /*运动轨迹*/
+  0% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@-webkit-keyframes move {
+  /*运动轨迹*/
+  0% {
+    -webkit-transform: scale(0.5);
+  }
+  100% {
+    -webkit-transform: scale(1);
+  }
+}
+@-moz-keyframes move {
+  /*运动轨迹*/
+  0% {
+    -moz-transform: scale(0.5);
+  }
+  100% {
+    -moz-transform: scale(1);
+  }
+}
+@-ms-keyframes move {
+  /*运动轨迹*/
+  0% {
+    -ms-transform: scale(0.5);
+  }
+  100% {
+    -ms-transform: scale(1);
+  }
+}
+@-o-keyframes move {
+  /*运动轨迹*/
+  0% {
+    -o-transform: scale(0.5);
+  }
+  100% {
+    -o-transform: scale(1);
+  }
+}
+#div1 {
+  animation: move 1s 1 both;
+  -webkit-animation: move 1s 1 both;
+  -moz-animation: move 1s 1 both;
+  -ms-animation: move 1s 1 both;
+  -o-animation: move 1s 1 both;
+}
+#div2 {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+}
+div {
+  padding: 33px;
+}
+/*在less这边有些CSS属性值是不支持编译，通过~"" 省略编译*/
+#div1 {
+  opacity: 0.8;
+  filter: alpha(opacity = 80);
+}
+/* ---------------------------*/
+.class1 {
+  background-color: black;
+}
+.class2 {
+  background-color: white;
+}
+/*
+  iscolor
+  isnumber
+  isstring
+  iskeyword
+  isurl
+  你想检查一个值除了数字是否是一个特定的单位，你可以使用下列方法之一
+  ispixel
+  ispercentage
+  isem
+  isunit
+
+*/
+/*嵌套规则*/
+.div1 p {
+  font-weight: bold;
+}
+.div1 p a {
+  color: red;
+}
+.div1 p a:hover {
+  font-size: 12px;
+}
+.link + .link {
+  color: red;
+}
+.link .link {
+  color: green;
+}
+.link.link {
+  color: blue;
+}
+.link,
+.linkish {
+  color: cyan;
+}
+button {
+  color: white;
+}
+a {
+  color: blue;
+}
+.column-1 {
+  width: 25%;
+}
+.column-2 {
+  width: 50%;
+}
+.column-3 {
+  width: 75%;
+}
+.column-4 {
+  width: 100%;
+}
+.myclass {
+  box-shadow: inset 0 0 10px #555, 0 0 20px black;
+  transform: scale(2);
+  /*合并时+相当于，*/
+}
+.myclass {
+  box-shadow: inset 0 0 10px #555;
+  transform: scale(2) rotate(15deg);
+  /*合并时+_相当于空格*/
+}

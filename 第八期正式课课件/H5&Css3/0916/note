@@ -1,0 +1,78 @@
+移动端开发
+  html5新增的特性
+    语义化标签
+    功能标签
+    增加表单类型，表单验证的事件
+    增加功能属性
+    全局属性
+    自由嵌入音视频
+    本地存储- DOM Storage存储 本地数据库
+    离线存储
+    canvas绘图功能
+    新增API File,drag,history,web socket
+H5页面  在移动设备上显示的页面
+H5开发 移动端开发 HTML5+CSS3+JS实现页面开发
+移动端布局技术
+    响应式开发 弹性盒模型开发（flexbox） 流式布局
+
+响应式开发是一种思维理念，不是一种技术，实现的方式是通过
+流动网格、弹性图片和媒介查询这三种技术实现
+
+把以上三种技术拆分成实现响应式web开发的四个规则
+ 1.允许网页自动调整宽度(设置viewport)
+ <meta name = "viewport" content = "width=device-width,initial-scale=1.0,user-scalable = no,maximum-scale=1.0, minimum-scale=1.0">
+    PC端页面在移动设备上显示时默认的是按照设备宽度/980这样的比例来缩放
+ 初始缩放值(initial-scale) = 设备宽度/980;
+    user-scalable 是否允许用户缩放 no禁止 yes允许
+    maximum-scale最大缩放值
+    minimum-scale最小缩放值
+ 2.页面布局不使用绝对宽度
+    （流式布局,弹性布局（flexbox），固定布局（pc））
+     常用度量单位(相对单位)：百分比（%） ，em(相对于父元素字体大小的倍数)，rem(相对于根元素（html）的字体大小-移动端采用的适配方案)
+       <div style="font-size:16px"> <p style="width:10em"></p></div>   10em->160px
+    单位都是混合起来一起用，就看你这个页面主体单位的是哪个
+
+3.媒体查询（@media）-实现响应式布局的关键
+   根据断点设置不同的媒体条件，从而设置不同的样式
+   媒体查询的本质就是能在不同的条件下使用不同的样式，使用页面达到不同的渲染效果
+   断点设置 是追随设计，内容，由产品或设计规定好了告诉你
+
+   高清屏幕图片需要根据设备像素比（device-pixel-ratio）,切不同倍数的图片，这样做的目的是首先图片在设备上显示清晰，其次还能节省流量
+   判断横竖屏
+   设备大小 device-width
+   显示区域 width
+
+   在移动设备上，竖屏时 ，device-width和width获得的值是一样的，横屏时device-width还是获得的是竖屏时的宽度，width获得的就是横屏时的宽度
+
+4.弹性图片
+    最简单的方式 max-width控制图片的大小(控制通过img标签引入进来的图片)
+    max-width：25%  图片大小超过25%时,图片大小变成25%,如果小于25%,则显示成图片自身的大小
+    背景图通过background-size控制图片的大小
+    最好的方式是根据设备像素比，切不同倍数的图片
+    H5页面 设计稿 750 参照iphone 5s（375）设备
+    高清屏幕（指设备像素比(dpr)大于等于2的设备）
+                                                       例如：
+    dpr = 1  ->切一倍的图 bg@1.jpg  (375宽度的设计稿上切)  100px*100px (忽视)
+    dpr = 2 - >切2倍的图  bg@2.jpg  (750宽度的设计稿上切)  200px*200px
+    dpr = 3 - >切2倍的图  bg@3.jpg  (1125宽度的设计稿上切) 300px
+
+
+LESS学习 ->http://www.css88.com/doc/less/
+Koala
+LESS文章地址：
+http://www.zhufengpeixun.com/qianduanjishuziliao/CSS3heHTML5zhuanti/2016-07-22/527.html
+
+http://www.zhufengpeixun.com/qianduanjishuziliao/CSS3heHTML5zhuanti/2016-08-29/606.html
+http://www.zhufengpeixun.com/qianduanjishuziliao/CSS3heHTML5zhuanti/2016-07-22/528.html
+
+
+
+
+
+
+
+
+
+
+
+

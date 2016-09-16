@@ -1,0 +1,287 @@
+@charset "utf-8";
+@mySelector : banner;
+@color:#fff;
+.@{mySelector}{
+  color: @color;
+  font-weight: bold;
+  line-height: 40px;
+  margin: 0 auto;
+  background: url("@{images}/back.png");
+}
+
+//url
+@images: "../img";
+
+//属性
+@property:color;
+.widget{
+  @{property}:#0ee;
+  background-@{property}:#999
+}
+//@fnord:"I am fnord";
+//@var :"fnord";
+//.a:before{
+//  content:@@var;
+//}
+
+
+@var:0;
+.class{
+  @var: 1;
+  .brass {
+    @var: 2;
+    three: @var;
+    @var: 3;
+  }
+  one: @var;
+}
+
+.aa{
+  color: red;
+}
+#div1{
+  &:extend(.aa);
+  width: 100px;
+  height: 100px;
+}
+div pre{
+  font-size: 20px;
+}
+.f{
+  color: yellow;
+}
+p:hover,
+.some-class {
+  &:extend(div pre,.f);
+}
+
+
+
+
+  @media screen  {
+    .selector1 {
+      color: blue;
+    }
+  }
+.topLevel:extend(.selector1){
+  font-size: 14px;
+};
+
+/*
+1.全局下的extend可以匹配任意作用域下的混合集
+2.当前作用域下的extend只能匹配当前作用下的混合集，不能匹配其他作用域中的混合集
+*/
+
+.my-hover-mixin {/*不加()编译后再CSS中输出,加()则编译后不会在Css输出*/
+  &:hover {
+    border: 1px solid red;
+  }
+}
+button {
+  font-size: 16px;
+  .my-hover-mixin();/*()可加可不加*/
+}
+
+.border-radius(@radius:5px) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  border-radius: @radius;
+}
+
+//设置初始值后就可以像这样调用它
+#header{
+  .border-radius();
+}
+
+//.transition(@property,@duration,@timing-function,@delay){
+//  transition: @property @duration @timing-function @delay;
+//  -webkit-transition: @property @duration @timing-function @delay;
+//  -moz-transition: @property @duration @timing-function @delay;
+//  -ms-transition: @property @duration @timing-function @delay;
+//  -o-transition: @property @duration @timing-function @delay;
+//}
+
+.transition(@property:all,@duration:0s,@timing-function:ease-in,@delay:0s){
+  transition: @arguments;
+  -webkit-transition: @arguments;
+  -moz-transition: @arguments;
+  -ms-transition:@arguments;
+  -o-transition: @arguments;
+}
+.a{
+ .transition(height,1s,ease-in-out,1s);/*不写参数名时，得一一对应严格按照参数的个数写下来*/
+}
+//
+//.mixin(...) {   }     // matches 0-N arguments
+//.mixin() {   }        // matches exactly 0 arguments
+//.mixin(@a: 1) {  }    // matches 0-1 arguments
+//.mixin(@a: 1; ...) {} // matches 0-N arguments
+//.mixin(@a; ...) { }   // matches 1-N arguments
+.frames(@-...) {/*运动轨迹*/
+
+  0%{
+    @{arguments}transform:scale(0.5)
+  }
+  100%{
+    @{arguments}transform:scale(1);
+  }
+
+}
+.keyframes(@name){
+  @keyframes @name {
+    .frames();
+  }
+  @-webkit-keyframes @name {
+    .frames(-webkit-)
+  }
+  @-moz-keyframes @name {
+    .frames(-moz-)
+  }
+  @-ms-keyframes @name {
+    .frames(-ms-)
+  }
+  @-o-keyframes @name {
+    .frames(-o-)
+  }
+}
+
+.keyframes (move);
+
+.css3(@k,@v){
+  @{k}:@v;
+  -webkit-@{k}:@v;
+  -moz-@{k}:@v;
+  -ms-@{k}:@v;
+  -o-@{k}:@v;
+}
+
+#div1{
+  .css3(animation,move 1s 1 both);
+}
+#div2{
+  .css3(transform,rotate(45deg));
+}
+
+.average(@x, @y) {
+  @average: ((@x + @y) / 2);
+}
+
+div {
+  .average(16px, 50px); // "call" the mixin
+  padding: @average;    // use its "return" value
+}
+
+.opacity(@opacity:1){
+  @temp:@opacity*100;
+  opacity: @opacity ;
+  filter:~"alpha(opacity = @{temp})";
+}
+
+/*在less这边有些CSS属性值是不支持编译，通过~"" 省略编译*/
+
+#div1{
+  .opacity(0.8)
+}
+
+/* ---------------------------*/
+.mixin (@a) when (lightness(@a) >= 50%) {
+  background-color: black;
+}
+.mixin (@a) when (lightness(@a) < 50%) {
+  background-color: white;
+}
+//.mixin (@a) {
+//  color: @a;
+//}
+.class1 { .mixin(#ddd) }
+.class2 { .mixin(#555) }
+
+/*
+  iscolor
+  isnumber
+  isstring
+  iskeyword
+  isurl
+  你想检查一个值除了数字是否是一个特定的单位，你可以使用下列方法之一
+  ispixel
+  ispercentage
+  isem
+  isunit
+
+*/
+/*嵌套规则*/
+.div1{
+  p{
+    font-weight: bold;
+    a{
+      color: red;
+      &:hover{
+       font-size: 12px;
+      }
+    }
+  }
+}
+
+.link {
+  & + & {
+    color: red;
+  }
+
+  & & {
+    color: green;
+  }
+
+  && {
+    color: blue;
+  }
+
+  &, &ish {
+    color: cyan;
+  }
+}
+
+@my-option:true;
+& when (@my-option = true) {//& 表示if的意思
+  button {
+    color: white;
+  }
+  a {
+    color: blue;
+  }
+}
+
+
+//.loop(@counter) when (@counter > 0) {
+//  .loop((@counter - 1));    // 递归调用自身
+//  width: (10px * @counter); // 每次调用时产生的样式代码
+//}
+//
+//div {
+//  .loop(5); // 调用循环
+//
+//}
+
+.generate-columns(4);
+.generate-columns(@n, @i: 1) when (@i =< @n) {
+  .column-@{i} {
+    width: (@i * 100% / @n);
+  }
+  .generate-columns(@n, (@i + 1));
+}
+
+.mixin() {
+  box-shadow+: inset 0 0 10px #555;
+}
+.myclass {
+  .mixin();
+  box-shadow+: 0 0 20px black;/*合并时+相当于，*/
+}
+
+.mixin() {
+  transform+_: scale(2);
+}
+.myclass {
+  .mixin();
+  transform+_: rotate(15deg);/*合并时+_相当于空格*/
+}
+
