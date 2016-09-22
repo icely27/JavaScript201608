@@ -55,6 +55,26 @@
         </ul>
     </div>
 
+    <!--RIGHT-->
+    <div class="right">
+        <!--CALENDER-->
+        <div class="calender">
+            <div class="con">
+                <div class="wrapper">
+
+                </div>
+            </div>
+            <a href="javascript:;" class="btnLeft">
+                <span class="arrow over"></span>
+                <span class="arrow"></span>
+            </a>
+            <a href="javascript:;" class="btnRight">
+                <span class="arrow over"></span>
+                <span class="arrow"></span>
+            </a>
+        </div>
+
+    </div>
 </section>
 
 <!--EJS模板渲染-->
@@ -62,7 +82,7 @@
 <script charset="utf-8" type="text/template" id="menuTemplate">
     <%$.each(menuData,function(index,item){%>
     <li>
-        <a href="#<%=item.hash%>">
+        <a href="#<%=item.hash%>" data-id="<%=item.columnId%>">
             <%=item.title%>
             <i>
                 <span class="arrow over"></span>
@@ -71,6 +91,14 @@
         </a>
     </li>
     <%});%>
+</script>
+<script charset="utf-8" type="text/template" id="calenderTemplate">
+    <%$.each(calenderData,function(index,item){%>
+    <a href="javascript:;" data-time="<%=item.date%>">
+        <span class="week"><%=item.weekday%></span>
+        <span class="date"><%=item.date.myFormatTime('{1}-{2}')%></span>
+    </a>
+    <%})%>
 </script>
 
 <script charset="utf-8" type="text/javascript" src="js/jquery-1.11.3.min.js"></script>

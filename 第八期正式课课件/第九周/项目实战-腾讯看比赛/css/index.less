@@ -147,10 +147,12 @@ a, a:hover, a:visited, a:active {
 /*MENU*/
 .menu {
   position: relative;
-  overflow: hidden;
+  float: left;
   width: 198px;
   background: @color-white;
   border: 1px solid @color-border;
+  overflow: hidden;
+
   li {
     a {
       display: block;
@@ -202,6 +204,122 @@ a, a:hover, a:visited, a:active {
   }
 }
 
+/*RIGHT*/
+.right {
+  float: right;
+  width: 820px;
+  height: 100%;
+  overflow: hidden;
+}
+
+/*CALENDER*/
+.calender {
+  position: relative;
+  height: 80px;
+  background: @color-white;
+  border: 1px solid @color-border;
+
+  /*按钮*/
+  .btnLeft, .btnRight {
+    position: absolute;
+    top: 0;
+    width: 24px;
+    height: 100%;
+    cursor: pointer;
+    span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 5;
+      margin: -9px 0 0 -9px;
+      width: 0;
+      height: 0;
+      font-size: 0;
+      border: 9px solid transparent;
+    }
+  }
+  .btnLeft {
+    left: 0;
+    span {
+      margin-left: -13.5px;
+      border-right-color: #999;
+      &.over {
+        z-index: 6;
+        margin-left: -11.5px;
+        border-right-color: @color-white;
+      }
+    }
+    &:hover {
+      span {
+        border-right-color: @color-blue;
+        &.over {
+          border-right-color: @color-white;
+        }
+      }
+    }
+  }
+  .btnRight {
+    right: 0;
+    span {
+      margin-left: -4.5px;
+      border-left-color: #999;
+      &.over {
+        z-index: 6;
+        margin-left: -6.5px;
+        border-left-color: @color-white;
+      }
+    }
+    &:hover {
+      span {
+        border-left-color: @color-blue;
+        &.over {
+          border-left-color: @color-white;
+        }
+      }
+    }
+  }
+
+  /*CON*/
+  .con {
+    position: relative;
+    margin: 0 24px;
+    height: 100%;
+    overflow: hidden;
+    .wrapper {
+      position: absolute;
+      left: 0;
+      top: 0;
+      padding: 5px 0;
+      width: 1000px; /*需要在JS中设置:A的宽度*A的个数*/
+      height: 70px;
+      a {
+        float: left;
+        width: 110px;
+        height: 100%;
+        span {
+          display: block;
+          line-height: 27px;
+          text-align: center;
+          font-size: 16px;
+          &.week {
+            margin-top: 9px;
+            color: lighten(@color-gray, 30%);
+          }
+        }
+
+        &:hover, &.bg {
+          color: @color-blue;
+          background: @color-blue-lite;
+          span {
+            &.week {
+              color: @color-blue;
+            }
+          }
+        }
+      }
+    }
+  }
+}
 
 
 
