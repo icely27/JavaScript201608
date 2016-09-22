@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        *{
+            margin: 0;
+            padding:0
+        }
+        .list{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 100px;
+        }
+        .list li{
+            padding: 0 20px;
+            border:1px solid palegreen;
+            height: 40px;
+            line-height: 40px;
+            font-size: 14px;
+            list-style: none;
+            margin-left:-1px;
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+        }
+        .list li span{
+            position: absolute;
+            left: 0;
+            top:40px;
+            display: block;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: red;
+            transition:0.3s;
+            -webkit-transition:0.3s;
+            -moz-transition:0.3s;
+            -ms-transition:0.3s;
+            -o-transition:0.3s;
+        }
+        .audioSetting{
+            display: block;
+            width: 32px;
+            height: 40px;
+            background: url(music.png) no-repeat 3px 5px;
+            border:1px solid palegreen;
+            margin-left: -1px;
+        }
+    </style>
+</head>
+<body>
+<ul class="list">
+    <li data-note = 1>新闻头条<span></span></li>
+    <li data-note = 2>电视剧<span></span></li>
+    <li data-note = 3>最新电影<span></span></li>
+    <li data-note = 4>小游戏<span></span></li>
+    <li data-note = 5>小说大全<span></span></li>
+    <li data-note = 6>旅游度假<span></span></li>
+    <li data-note = 7>网上购物<span></span></li>
+    <a href="###" class="audioSetting" data-music = "on"></a>
+</ul>
+<audio id="oA"></audio>
+</body>
+</html>
+<script>
+    var oAudio = document.querySelector("#oA");
+//    var oSpans = document.querySelectorAll(".list span");
+    var oLis = document.querySelectorAll(".list li");
+    var audioSetting = document.querySelector(".audioSetting");
+    [].forEach.call(oLis,function(item,index){
+        var oSpan = item.getElementsByTagName("span")[0];
+        oSpan.style.backgroundColor = "rgba("+Math.round(Math.random()*255)+","+Math.round(Math.random()*255)+","+Math.round(Math.random()*255)+",0.5)";
+        item.addEventListener("mouseover",function(){
+                oA.pause();
+                oA.currentTime  = 0;
+                var oSpan = this.getElementsByTagName("span")[0];
+                oSpan.style.top = "0px";
+                var note = this.dataset.note;
+                oA.src = "http://s8.qhimg.com/share/audio/piano1/a"+note+".mp3";
+                oA.play();
+        },false);
+        item.addEventListener("mouseout",function(){
+                var oSpan = this.getElementsByTagName("span")[0];
+                oSpan.style.top = "40px";
+
+        },false);
+    })
+    /*点击时需要判断音频文件是否播放中*/
+    audioSetting.addEventListener("click",function(){
+        var music = this.dataset.music;
+        if(music =="on"){/*当前状态是播放，点击下应该变成静音*/
+            oA.muted = true;
+            this.style.backgroundPosition = "-31px 4px ";
+            this.dataset.music = "off";
+        }else{/*当前状态是静音，点击下变成播放*/
+            oA.muted = false;
+            this.style.backgroundPosition = "3px 5px";
+            this.dataset.music = "on";
+        }
+    },false)
+
+
+
+</script>

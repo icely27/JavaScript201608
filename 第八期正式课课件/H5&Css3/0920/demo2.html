@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<audio src="johann_sebastian_bach_air.mp3" controls  id="oA"></audio>
+<video  controls id="oB" width="300" height="500" autoplay>
+    <source src="big_buck_bunny_240p_2mb.mp4"/>
+</video>
+<input type="button" id="btn" value="按钮"/>
+</body>
+</html>
+<script>
+    var oA = document.querySelector("#oA");
+    window.onload = function(){
+
+        //oA.currentTime = 60;
+//        console.log(oA.duration);
+       // oA.volume = 0;
+       // oA.muted = true;
+       // console.log(oA.paused);/*正在播放的返回的是false,停止的返回的是true,可以通过这个属性查看媒体是否播放或者停止*/
+
+
+
+//    window.setInterval(function(){
+//        console.log(oA.currentTime); /*单位是s*/
+//    },100)
+    var oBtn = document.querySelector("#btn");
+    var oBVideo = document.querySelector("#oB");
+    var oB = document.querySelector("#oB>source");
+//    oBtn.onclick = function(){
+//        oB.src = "Intermission-Walk-in_512kb.mp4";
+//        oBVideo.load();
+//    }
+//    oBVideo.poster = "hs.jpg";
+    console.log(oB.videoWidth,oB.videoHeight);
+//    oBVideo.addEventListener("timeupdate",function(){
+//        //输出当前播放的进度
+//        console.log(this.currentTime/this.duration);
+//
+//    },false)
+    }
+</script>

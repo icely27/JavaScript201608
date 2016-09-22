@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <style type="text/css">
+        @media all and (min-width:320px) {
+            html{
+                font-size: 10px;
+            }
+        }
+        @media all and (min-width:414px) {
+            html{
+                font-size: 40px;
+            }
+        }
+
+        #div1{
+            width: 10rem;
+            height: 10rem;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+<div id="div1"></div>
+</body>
+</html>
+
+<!--
+750   ->750宽度的设备根元素字体大小是100px (仅仅是为了好算，这样写移动端页面时，把量的宽度除以100得出rem值)
+      ->375    50px
+图片 200px 300px  2rem
+
+设计稿宽度/100 = 设备的宽度/根元素的字体
+根元素的字体 = 设备的宽度/设计稿宽度 *100
+-->
+<script>
+    /*默认针对dpr是2的设备*/
+    /*根据设备的宽度，设定等比的字体的大小*/
+  ~(function(desW){
+      var winW = document.documentElement.clientWidth;
+      var n = winW/desW;
+      document.documentElement.style.fontSize = n*100+"px";
+  })(750)
+
+</script>

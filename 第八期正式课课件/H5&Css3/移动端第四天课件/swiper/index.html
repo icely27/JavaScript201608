@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="css/swiper.min.css"/>
+    <style type="text/css">
+        .swiper-container{
+            width: 700px;
+            margin: 0 auto;
+        }
+        .swiper-slide{
+            width: 100%;
+            height: 350px;
+        }
+        .swiper-slide img{
+            width: 100%;
+            height: 100%;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="swiper-container">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide">
+            <img data-src="img/banner/banner1.jpg" class="swiper-lazy">
+            <div class="swiper-lazy-preloader"></div>
+        </div>
+        <div class="swiper-slide">
+            <img data-src="img/banner/banner2.jpg" class="swiper-lazy">
+            <div class="swiper-lazy-preloader"></div>
+        </div>
+        <div class="swiper-slide">
+            <img data-src="img/banner/banner3.jpg" class="swiper-lazy"></div>
+        <div class="swiper-lazy-preloader"></div>
+        <div class="swiper-slide">
+            <img data-src="img/banner/banner4.jpg" class="swiper-lazy"></div>
+        <div class="swiper-lazy-preloader"></div>
+    </div>
+    <!-- 如果需要分页器 -->
+    <div class="swiper-pagination"></div>
+
+    <!-- 如果需要导航按钮 -->
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+
+    <!-- 如果需要滚动条 -->
+    <!--<div class="swiper-scrollbar"></div>-->
+</div>
+</body>
+</html>
+    <script src="js/swiper.min.js"></script>
+<script>
+
+var mySwiper = new Swiper ('.swiper-container', {
+    direction: 'horizontal',/*水平*/
+    loop: true,/*循环轮播*/
+    autoplay:3000,/*轮播间隔的时间*/
+    mousewheelControl:true,/*滚轮控制*/
+    paginationClickable:true,/*焦点可点击*/
+    // 如果需要分页器
+    pagination: '.swiper-pagination',
+//    effect:"flip",/*切换的效果 cube,coverflow,flip*/
+    lazyLoading:true,/*延迟加载*/
+
+    // 如果需要前进后退按钮
+    nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+    onInit : function(swiper){/*初始化后执行的回调函数*/
+        console.log(swiper)
+    }
+
+})
+</script>

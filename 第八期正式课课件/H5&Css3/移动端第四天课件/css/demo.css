@@ -1,0 +1,67 @@
+/*
+@var:0;
+.class{
+  @var: 1;
+  .brass {
+    @var: 2;
+    three: @var;
+    @var: 3;
+  }
+  one: @var;
+}
+
+#div{
+  .class > .brass
+}*/
+/*
+.a{
+  color: blue;
+}
+.mixin-class {
+  .a();
+}
+*/
+/*
+.my-hover-mixin() {
+  &:hover {
+    border: 1px solid red;
+  }
+}
+button {
+  .my-hover-mixin();
+}
+p{
+  .my-hover-mixin()
+}*/
+.a {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: auto;
+  bottom: auto;
+  z-index: 0;
+}
+.a1 {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: auto;
+  bottom: auto;
+  z-index: 1;
+}
+.a2 {
+  position: relative;
+  left: 1px;
+  top: 2px;
+  right: auto;
+  bottom: auto;
+  z-index: 5;
+}
+div {
+  padding: 33px;
+}
+#div1 {
+  opacity: 0.8;
+  filter: alpha(opacity = 80);
+  width: 80px;
+}

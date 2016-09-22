@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        *{
+            margin:0;
+            padding:0
+        }
+        .bunny{
+            width: 500px;
+            margin: 0 auto;
+            font-size: 12px;
+        }
+        .bunnyControl{
+
+            width: 100%;
+            height: 36px;
+            line-height: 36px;
+            position: relative;
+            background: linear-gradient(top,rgb(242,242,242),rgb(209,209,209));
+            background: -webkit-linear-gradient(top,rgb(242,242,242),rgb(209,209,209));
+
+        }
+        .b-play{
+            float: left;
+            width: 40px;
+            height: 35px;
+            background: url(sprite.png) no-repeat 0 0;
+            cursor: pointer;
+        }
+        .play-bar{
+            float: left;
+            width: 180px;
+            height: 10px;
+            border-radius:5px;
+            background:#706D6D;
+            margin-top: 13px;
+            position: relative;
+        }
+        .play-bar-icon{
+            position: absolute;
+            top: -3px;
+            left: -1px;
+            background: url(handle.png) no-repeat center;
+            width: 16px;
+            height: 17px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .curTime{
+            float: left;
+            margin-left: 10px;
+        }
+        .b-mute{
+            float: left;
+            background: url(sprite.png) -80px 0 no-repeat;
+            margin-top: 1px;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+        }
+        .volume-bar{
+            background:#706D6D;
+            width: 100px;
+            height: 10px;
+            position: relative;
+            border-radius:5px ;
+            float: left;
+            margin-top: 13px;
+            position: relative;
+        }
+        .volume-bar-icon{
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            background: url(volume.png) no-repeat center;
+            width: 11px;
+            height: 10px;
+            cursor: pointer;
+            transition:0.3s;
+        }
+        .b-full-screen{
+            background: url(sprite.png) -150px 0 no-repeat;
+            float: left;
+            width: 40px;
+            height: 35px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="bunny">
+    <video src="big_buck_bunny_240p_2mb.mp4" width="500"></video>
+   <div class="bunnyControl">
+       <a href="###" class="b-play"></a>
+       <div class="play-bar">
+           <span class="play-bar-icon"></span>
+       </div>
+       <div class="curTime">00:00/00:26</div>
+       <div class="b-mute"></div>
+       <div class="volume-bar">
+           <span class="volume-bar-icon"></span>
+       </div>
+       <div class="b-full-screen"></div>
+   </div>
+</div>
+</body>
+</html>
+<script>
+
+
+</script>

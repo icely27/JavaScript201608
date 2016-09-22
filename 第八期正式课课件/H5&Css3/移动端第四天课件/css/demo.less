@@ -1,0 +1,104 @@
+/*
+@var:0;
+.class{
+  @var: 1;
+  .brass {
+    @var: 2;
+    three: @var;
+    @var: 3;
+  }
+  one: @var;
+}
+
+#div{
+  .class > .brass
+}*/
+
+
+//.inline{
+//  font-size: 20px;
+//}
+//
+//nav ul {
+//  &:extend(.inline);
+//  background: blue;
+//}
+
+
+//div pre{
+//  color: blue;
+//}
+//
+//pre:hover,
+//.some-class {
+//  &:extend(div pre);
+//}
+
+/*
+.a{
+  color: blue;
+}
+.mixin-class {
+  .a();
+}
+*/
+
+
+/*
+.my-hover-mixin() {
+  &:hover {
+    border: 1px solid red;
+  }
+}
+button {
+  .my-hover-mixin();
+}
+p{
+  .my-hover-mixin()
+}*/
+
+
+
+.position(@pos:absolute;@left:0;@top:0;@right:auto;@bottom:auto;@zIndex:0){
+  position:@pos;
+  left:@left;
+  top: @top;
+  right:@right;
+  bottom:@bottom;
+  z-index:@zIndex;
+}
+
+.a{
+  .position;
+}
+
+.a1{
+  .position(@zIndex: 1)
+}
+.a2{
+  .position(relative,1px,2px,auto,auto,5)
+}
+
+
+.average(@x, @y) {
+  @average: ((@x + @y) / 2);
+}
+
+div {
+  .average(16px, 50px);
+  padding: @average;
+}
+
+.opacity(@opacity:1){
+  @temp:@opacity*100;
+  opacity: @opacity ;
+  filter:~"alpha(opacity = @{temp})";
+}
+
+#div1{
+  .opacity(0.8);
+  width:unit(@temp,px);
+}
+
+//@import (reference) "public";
+//@import (css) "index.css";
